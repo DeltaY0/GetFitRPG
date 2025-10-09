@@ -1,0 +1,22 @@
+[
+  {
+    "id": "push-ups",
+    "link": "video_path_01"
+  },
+  {
+    "id": "squats",
+    "link": "video_path_02"
+  },
+  {
+    "id": "jumping-jacks",
+    "link": "video_path_03"
+  },
+  {
+    "id": "plank",
+    "link": "video_path_04"
+  },
+  {
+    "id": "lunges",
+    "link": "video_path_05"
+  }
+]

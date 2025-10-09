@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import com.example.getfitrpg.ui.theme.GetFitRPGTheme
 import androidx.compose.material3.*
 import androidx.compose.ui.Alignment
+import com.example.getfitrpg.backend.JSONSerializer
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
