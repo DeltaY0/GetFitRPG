@@ -15,7 +15,7 @@ import androidx.compose.ui.Modifier
 import com.example.getfitrpg.ui.theme.GetFitRPGTheme
 import androidx.compose.material3.*
 import androidx.compose.ui.Alignment
-import com.example.getfitrpg.backend.JSONSerializer
+import com.example.getfitrpg.pages.Splash
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,29 +24,10 @@ class MainActivity : ComponentActivity() {
         setContent {
             GetFitRPGTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                   Greeting("Get Fit RPG", Modifier.padding(innerPadding))
+                    Splash( Modifier.padding(innerPadding))
                 }
             }
         }
     }
 }
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Column(
-        modifier = modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text(
-            text = "Welcome to $name!",
-            modifier = modifier
-        )
-        Button(
-            onClick = {  },
-            modifier = modifier
-        ) {
-            Text(text = "Continue")
-        }
-    }
-}
