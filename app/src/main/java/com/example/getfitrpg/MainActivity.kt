@@ -8,14 +8,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavDestination.Companion.hierarchy
@@ -26,9 +23,13 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.getfitrpg.pages.Home
 import com.example.getfitrpg.pages.Login
+import com.example.getfitrpg.pages.PresetsScreen
 import com.example.getfitrpg.pages.Signup
 import com.example.getfitrpg.pages.SplashScreen
+import com.example.getfitrpg.pages.StatsScreen
+import com.example.getfitrpg.pages.WorkoutsScreen
 import com.example.getfitrpg.ui.theme.GetFitRPGTheme
+
 
 sealed class Screen(val route: String, val title: String) {
     object Splash : Screen("splash", "Splash")
@@ -97,6 +98,9 @@ class MainActivity : ComponentActivity() {
                         composable(Screen.Login.route) { Login(navController = navController, modifier = Modifier) }
                         composable(Screen.Signup.route) { Signup(navController = navController, modifier = Modifier) }
                         composable(Screen.Home.route) { Home(modifier = Modifier) }
+                        composable(Screen.Stats.route) { StatsScreen(modifier = Modifier) }
+                        composable(Screen.Presets.route) { PresetsScreen(modifier = Modifier) }
+                        composable(Screen.Workouts.route) { WorkoutsScreen(modifier = Modifier) }
                         // Add composables for Presets, Stats, Workouts, and Settings here
                     }
                 }
