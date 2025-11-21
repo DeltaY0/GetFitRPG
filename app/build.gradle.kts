@@ -68,4 +68,7 @@ dependencies {
     debugImplementation(libs.androidx.compose.ui.test.manifest)
     implementation(libs.kotlinx.serialization.json)
 
+    implementation(libs.androidx.navigation.compose.v283)
+    implementation(libs.androidx.compose.material.icons.extended)
+
 }
