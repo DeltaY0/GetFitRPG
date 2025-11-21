@@ -5,11 +5,10 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.getfitrpg.PlaceholderScreen
 
 import com.example.getfitrpg.feature.auth.login.LoginScreen
 import com.example.getfitrpg.feature.auth.signup.SignupScreen
-import com.example.getfitrpg.feature.home.HomeScreen
-import com.example.getfitrpg.feature.profile.StatScreen
 import com.example.getfitrpg.feature.splash.SplashScreen
 
 @Composable
@@ -28,7 +27,8 @@ fun AppNavGraph(
             SplashScreen(
                 onInitializationComplete = {
                     // Pop Splash so user can't go back to it
-                    navController.navigate(Screen.Login.route) {
+                    // TODO: fix navigation to login/onboarding
+                    navController.navigate(Screen.Home.route) {
                         popUpTo(Screen.Splash.route) { inclusive = true }
                     }
                 }
@@ -62,14 +62,28 @@ fun AppNavGraph(
 
         // 3. Main App Flow
         composable(Screen.Home.route) {
-            HomeScreen(
-                /*onNavigateToProfile = { navController.navigate(Screen.Profile.route) },
-                onStartWorkout = { /* Navigate to workout builder */ }*/
-            )
+            // HomeScreen()
+            PlaceholderScreen("DASHBOARD")
         }
 
-        composable(Screen.Profile.route) {
-            StatScreen()
+        composable(Screen.Workout.route) {
+            // WorkoutScreen()
+            PlaceholderScreen("WORKOUT HUB")
+        }
+
+        composable(Screen.Stats.route) {
+            // StatScreen()
+            PlaceholderScreen("RPG STATS")
+        }
+
+        composable(Screen.DietAI.route) {
+            // DietAIScreen()
+            PlaceholderScreen("DIET AI")
+        }
+
+        composable(Screen.Timer.route) {
+            // TimerScreen()
+            PlaceholderScreen("TIMER")
         }
     }
 }
@@ -80,5 +94,8 @@ sealed class Screen(val route: String) {
     object Login : Screen("login")
     object Signup : Screen("signup")
     object Home : Screen("home")
-    object Profile : Screen("profile")
+    object Workout : Screen("workout")
+    object Stats : Screen("profile")
+    object DietAI : Screen("diet_ai")
+    object Timer : Screen("timer")
 }

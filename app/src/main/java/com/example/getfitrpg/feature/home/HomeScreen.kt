@@ -1,5 +1,8 @@
 package com.example.getfitrpg.feature.home
 
-class HomeScreen{
+import androidx.compose.runtime.Composable
+
+@Composable
+fun HomeScreen() {
 
 }

@@ -30,7 +30,14 @@ fun MainScreen() {
     // (e.g., Hide on Splash and Login screens)
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
-    val showBottomBar = currentRoute in listOf(Screen.Home.route, "workout", "rpg")
+
+    val showBottomBar = currentRoute in listOf(
+        Screen.Home.route,
+        Screen.Workout.route,
+        Screen.Stats.route,
+        Screen.DietAI.route,
+        Screen.Timer.route
+    )
 
     Scaffold(
         bottomBar = {

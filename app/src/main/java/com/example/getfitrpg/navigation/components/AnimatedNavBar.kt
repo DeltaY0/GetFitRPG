@@ -27,6 +27,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 
 @Composable
@@ -100,9 +101,9 @@ fun AnimatedBottomBar(
                         contentAlignment = Alignment.Center
                     ) {
                         Icon(
-                            imageVector = item.icon,
+                            // imageVector = item.icon,
+                            painterResource(id = item.icon),
                             contentDescription = item.label,
-                            // Key Detail: White icon if unselected, Black icon if selected (to contrast with white box)
                             tint = if (isSelected) Color.Black else Color.White,
                             modifier = Modifier.size(28.dp)
                         )

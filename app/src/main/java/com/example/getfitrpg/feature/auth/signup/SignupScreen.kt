@@ -1,4 +1,8 @@
 package com.example.getfitrpg.feature.auth.signup
 
-class SignupScreen {
+import androidx.compose.runtime.Composable
+
+@Composable
+fun SignupScreen() {
+
 }
