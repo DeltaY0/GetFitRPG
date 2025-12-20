@@ -2,10 +2,8 @@ package com.example.getfitrpg.feature.auth.ForgetPassword
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -49,15 +47,18 @@ import com.example.getfitrpg.core.designsystem.BackgroundDark
 import com.example.getfitrpg.core.designsystem.ErrorRed
 import com.example.getfitrpg.core.designsystem.GetFitRPGTheme
 import com.example.getfitrpg.core.designsystem.MontserratFontFamily
+import com.example.getfitrpg.core.designsystem.PrimaryGreen
 import com.example.getfitrpg.core.designsystem.TextGrey
 import com.example.getfitrpg.core.designsystem.TextWhite
+import com.example.getfitrpg.feature.auth.AuthManager
 
 @Composable
-fun ForgetPassword2Screen(onBackClicked: () -> Unit, onResetPasswordClicked: () -> Unit) {
+fun ForgetPassword2Screen(authManager: AuthManager, code: String, onBackClicked: () -> Unit, onResetPasswordClicked: () -> Unit) {
     var newPassword by remember { mutableStateOf("") }
     var confirmPassword by remember { mutableStateOf("") }
     var newPasswordVisible by remember { mutableStateOf(false) }
     var confirmPasswordVisible by remember { mutableStateOf(false) }
+    var message by remember { mutableStateOf<String?>(null) }
 
     // Password must be at least 8 characters, contain a letter and a number.
     val isNewPasswordStrong = newPassword.length >= 8 && newPassword.any { it.isDigit() } && newPassword.any { it.isLetter() }
@@ -73,7 +74,7 @@ fun ForgetPassword2Screen(onBackClicked: () -> Unit, onResetPasswordClicked: () 
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(bottom = 20.dp) 
+                .padding(bottom = 20.dp)
         ) {
             IconButton(onClick = onBackClicked, modifier = Modifier.align(Alignment.CenterStart)) {
                 Icon(
@@ -199,10 +200,29 @@ fun ForgetPassword2Screen(onBackClicked: () -> Unit, onResetPasswordClicked: () 
             )
         }
 
+        message?.let {
+            Spacer(modifier = Modifier.height(10.dp))
+            Text(
+                text = it,
+                color = if (it.contains("Success")) PrimaryGreen else ErrorRed,
+                fontFamily = MontserratFontFamily,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 16.dp, top = 4.dp)
+            )
+        }
+
         Spacer(modifier = Modifier.height(30.dp))
 
         Button(
-            onClick = onResetPasswordClicked,
+            onClick = {
+                authManager.confirmPasswordReset(code, newPassword, onSuccess = {
+                    message = "Password reset successfully."
+                    onResetPasswordClicked()
+                }, onFailure = {
+                    message = it.message
+                })
+            },
             modifier = Modifier
                 .fillMaxWidth()
                 .height(50.dp),
@@ -219,6 +239,6 @@ fun ForgetPassword2Screen(onBackClicked: () -> Unit, onResetPasswordClicked: () 
 @Composable
 fun ForgetPassword2ScreenPreview() {
     GetFitRPGTheme {
-        ForgetPassword2Screen(onBackClicked = {}, onResetPasswordClicked = {})
+        ForgetPassword2Screen(authManager = AuthManager(), code = "", onBackClicked = {}, onResetPasswordClicked = {})
     }
 }

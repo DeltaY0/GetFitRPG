@@ -3,15 +3,13 @@ package com.example.getfitrpg.feature.auth.ForgetPassword
 import android.util.Patterns
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
@@ -47,13 +45,22 @@ import com.example.getfitrpg.core.designsystem.BackgroundDark
 import com.example.getfitrpg.core.designsystem.ErrorRed
 import com.example.getfitrpg.core.designsystem.GetFitRPGTheme
 import com.example.getfitrpg.core.designsystem.MontserratFontFamily
+import com.example.getfitrpg.core.designsystem.PrimaryGreen
 import com.example.getfitrpg.core.designsystem.TextGrey
 import com.example.getfitrpg.core.designsystem.TextWhite
+import com.example.getfitrpg.feature.auth.AuthManager
 
 @Composable
-fun ForgetPassword1Screen(onBackClicked: () -> Unit, onLoginClicked: () -> Unit, onSendCodeClicked: () -> Unit) {
+fun ForgetPassword1Screen(
+    authManager: AuthManager,
+    onBackClicked: () -> Unit,
+    onLoginClicked: () -> Unit,
+    onNavigateToOtp: () -> Unit // 1. Added callback for navigation
+) {
     var email by remember { mutableStateOf("") }
-    val isEmailValid = Patterns.EMAIL_ADDRESS.matcher(email).matches()
+    var message by remember { mutableStateOf<String?>(null) }
+    // A simple regex check for UI feedback
+    val isEmailValid = email.isNotEmpty() && Patterns.EMAIL_ADDRESS.matcher(email).matches()
 
     Column(
         modifier = Modifier
@@ -62,12 +69,15 @@ fun ForgetPassword1Screen(onBackClicked: () -> Unit, onLoginClicked: () -> Unit,
             .padding(32.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Row(
+        // FIXED HEADER: Used Box for perfect centering of the logo
+        Box(
             modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
+            contentAlignment = Alignment.Center
         ) {
-            IconButton(onClick = onBackClicked) {
+            IconButton(
+                onClick = onBackClicked,
+                modifier = Modifier.align(Alignment.CenterStart)
+            ) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                     contentDescription = "Back",
@@ -80,9 +90,8 @@ fun ForgetPassword1Screen(onBackClicked: () -> Unit, onLoginClicked: () -> Unit,
             Image(
                 painter = painterResource(id = R.drawable.logo_with_text_dark),
                 contentDescription = "Get Fit RPG Logo",
-                modifier = Modifier.height(45.dp).padding(start = 180.dp)
+                modifier = Modifier.height(45.dp)
             )
-            Spacer(modifier = Modifier.size(50.dp))
         }
 
         Spacer(modifier = Modifier.height(60.dp))
@@ -112,8 +121,20 @@ fun ForgetPassword1Screen(onBackClicked: () -> Unit, onLoginClicked: () -> Unit,
         OutlinedTextField(
             value = email,
             onValueChange = { email = it },
-            placeholder = { Text(color = TextGrey,text ="Email", fontFamily = MontserratFontFamily, fontWeight = FontWeight.Medium) },
-            textStyle = TextStyle(fontFamily = MontserratFontFamily, fontWeight = FontWeight.Medium, fontSize = 16.sp,color = Color.Black),
+            placeholder = {
+                Text(
+                    color = TextGrey,
+                    text = "Email",
+                    fontFamily = MontserratFontFamily,
+                    fontWeight = FontWeight.Medium
+                )
+            },
+            textStyle = TextStyle(
+                fontFamily = MontserratFontFamily,
+                fontWeight = FontWeight.Medium,
+                fontSize = 16.sp,
+                color = Color.Black
+            ),
             modifier = Modifier.fillMaxWidth(),
             isError = !isEmailValid && email.isNotEmpty(),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
@@ -136,11 +157,30 @@ fun ForgetPassword1Screen(onBackClicked: () -> Unit, onLoginClicked: () -> Unit,
             singleLine = true
         )
 
+        message?.let {
+            Spacer(modifier = Modifier.height(10.dp))
+            Text(
+                text = it,
+                color = if (it.contains("Success", ignoreCase = true)) PrimaryGreen else ErrorRed,
+                fontFamily = MontserratFontFamily,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 16.dp, top = 4.dp)
+            )
+        }
 
         Spacer(modifier = Modifier.height(30.dp))
 
         Button(
-            onClick = onSendCodeClicked,
+            onClick = {
+                // 2. Trigger API call, then navigate on success
+                authManager.sendPasswordResetEmail(email, onSuccess = {
+                    message = "Code sent successfully" // Optional feedback before navigation
+                    onNavigateToOtp()
+                }, onFailure = { error ->
+                    message = error.message
+                })
+            },
             modifier = Modifier
                 .fillMaxWidth()
                 .height(50.dp),
@@ -168,6 +208,11 @@ fun ForgetPassword1Screen(onBackClicked: () -> Unit, onLoginClicked: () -> Unit,
 @Composable
 fun ForgetPassword1ScreenPreview() {
     GetFitRPGTheme {
-        ForgetPassword1Screen(onBackClicked = {}, onLoginClicked = {}, onSendCodeClicked = {})
+        ForgetPassword1Screen(
+            authManager = AuthManager(),
+            onBackClicked = {},
+            onLoginClicked = {},
+            onNavigateToOtp = {}
+        )
     }
 }

@@ -3,7 +3,6 @@ package com.example.getfitrpg.feature.auth.ForgetPassword
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -41,7 +40,7 @@ import com.example.getfitrpg.core.designsystem.TextGrey
 import com.example.getfitrpg.core.designsystem.TextWhite
 
 @Composable
-fun ForgetPassword3Screen(onBackClicked: () -> Unit, onBackToLoginClicked: () -> Unit) {
+fun ForgetPassword3Screen(onBackToLoginClicked: () -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -54,7 +53,7 @@ fun ForgetPassword3Screen(onBackClicked: () -> Unit, onBackToLoginClicked: () ->
                 .fillMaxWidth()
                 .padding(bottom = 20.dp)
         ) {
-            IconButton(onClick = onBackClicked, modifier = Modifier.align(Alignment.CenterStart)) {
+            IconButton(onClick = onBackToLoginClicked, modifier = Modifier.align(Alignment.CenterStart)) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                     contentDescription = "Back",
@@ -68,9 +67,8 @@ fun ForgetPassword3Screen(onBackClicked: () -> Unit, onBackToLoginClicked: () ->
                 painter = painterResource(id = R.drawable.logo_with_text_dark),
                 contentDescription = "Get Fit RPG Logo",
                 modifier = Modifier
-                    .height(35.dp)
-                    .padding(start = 180.dp)
-                    .size(300.dp)
+                    .height(40.dp)
+                    .align(Alignment.Center)
             )
         }
 
@@ -126,6 +124,6 @@ fun ForgetPassword3Screen(onBackClicked: () -> Unit, onBackToLoginClicked: () ->
 @Composable
 fun ForgetPassword3ScreenPreview() {
     GetFitRPGTheme {
-        ForgetPassword3Screen(onBackClicked = {}, onBackToLoginClicked = {})
+        ForgetPassword3Screen(onBackToLoginClicked = {})
     }
 }

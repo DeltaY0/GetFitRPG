@@ -52,9 +52,10 @@ import com.example.getfitrpg.core.designsystem.MontserratFontFamily
 import com.example.getfitrpg.core.designsystem.PrimaryGreen
 import com.example.getfitrpg.core.designsystem.TextGrey
 import com.example.getfitrpg.core.designsystem.TextWhite
+import com.example.getfitrpg.feature.auth.AuthManager
 
 @Composable
-fun SignupScreen(onLoginClicked: () -> Unit, onRegisterClicked: () -> Unit) {
+fun SignupScreen(authManager: AuthManager, onLoginClicked: () -> Unit, onRegisterClicked: () -> Unit) {
     var username by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
@@ -62,6 +63,8 @@ fun SignupScreen(onLoginClicked: () -> Unit, onRegisterClicked: () -> Unit) {
 
     var passwordVisible by remember { mutableStateOf(false) }
     var confirmPasswordVisible by remember { mutableStateOf(false) }
+
+    var registrationMessage by remember { mutableStateOf<String?>(null) }
 
     val isEmailValid = Patterns.EMAIL_ADDRESS.matcher(email).matches()
     val isPasswordStrong = password.length >= 8 && password.any { it.isDigit() } && password.any { it.isLetter() }
@@ -234,10 +237,29 @@ fun SignupScreen(onLoginClicked: () -> Unit, onRegisterClicked: () -> Unit) {
             )
         }
 
+        registrationMessage?.let {
+            Spacer(modifier = Modifier.height(10.dp))
+            Text(
+                text = it,
+                color = if (it.contains("Success")) PrimaryGreen else ErrorRed,
+                fontFamily = MontserratFontFamily,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 16.dp, top = 4.dp)
+            )
+        }
+
         Spacer(modifier = Modifier.height(30.dp))
 
         Button(
-            onClick = onRegisterClicked,
+            onClick = {
+                authManager.createUser(username, email, password, onSuccess = {
+                    registrationMessage = "Registration Success! Verification email sent."
+                    onRegisterClicked()
+                }, onFailure = {
+                    registrationMessage = it.message
+                })
+            },
             modifier = Modifier
                 .fillMaxWidth()
                 .height(50.dp),
@@ -284,6 +306,6 @@ fun SignupScreen(onLoginClicked: () -> Unit, onRegisterClicked: () -> Unit) {
 @Composable
 fun SignupScreenPreview() {
     GetFitRPGTheme {
-        SignupScreen(onLoginClicked = {}, onRegisterClicked = {})
+        SignupScreen(authManager = AuthManager(), onLoginClicked = {}, onRegisterClicked = {})
     }
 }
