@@ -23,7 +23,7 @@ import com.example.getfitrpg.navigation.components.AnimatedBottomBar
 import com.example.getfitrpg.navigation.components.BottomNavItem
 
 @Composable
-fun MainScreen() {
+fun MainScreen(oobCode: String? = null) {
     val navController = rememberNavController()
 
     // Logic to determine if we should show the bottom bar
@@ -62,6 +62,7 @@ fun MainScreen() {
     ) { innerPadding ->
         AppNavGraph(
             navController = navController,
+            oobCode = oobCode,
             modifier = Modifier.padding(innerPadding)
         )
     }

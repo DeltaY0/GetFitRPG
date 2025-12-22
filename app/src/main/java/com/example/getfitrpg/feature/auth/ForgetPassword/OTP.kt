@@ -34,6 +34,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
@@ -41,16 +42,26 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.getfitrpg.R
+// Ensure these imports match your actual package structure
+import com.example.getfitrpg.core.designsystem.AccentYellow
 import com.example.getfitrpg.core.designsystem.BackgroundDark
+import com.example.getfitrpg.core.designsystem.ErrorRed
 import com.example.getfitrpg.core.designsystem.GetFitRPGTheme
+import com.example.getfitrpg.core.designsystem.MontserratFontFamily
 import com.example.getfitrpg.core.designsystem.PrimaryGreen
 import com.example.getfitrpg.core.designsystem.TextGrey
 import com.example.getfitrpg.core.designsystem.TextWhite
+import com.example.getfitrpg.feature.auth.AuthManager
 
 @Composable
-fun OtpScreen(onBackClicked: () -> Unit, onVerifySuccess: () -> Unit) {
+fun OtpScreen(
+    authManager: AuthManager,
+    onBackClicked: () -> Unit,
+    onVerifySuccess: (String) -> Unit
+) {
     var otpValue by remember { mutableStateOf("") }
     val otpLength = 4
+    var message by remember { mutableStateOf<String?>(null) }
 
     Column(
         modifier = Modifier
@@ -69,7 +80,9 @@ fun OtpScreen(onBackClicked: () -> Unit, onVerifySuccess: () -> Unit) {
                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                     contentDescription = "Back",
                     tint = TextWhite,
-                    modifier = Modifier.background(TextGrey.copy(alpha = 0.5f), RoundedCornerShape(8.dp)).padding(4.dp)
+                    modifier = Modifier
+                        .background(TextGrey.copy(alpha = 0.5f), RoundedCornerShape(8.dp))
+                        .padding(4.dp)
                 )
             }
             Image(
@@ -77,7 +90,7 @@ fun OtpScreen(onBackClicked: () -> Unit, onVerifySuccess: () -> Unit) {
                 contentDescription = "Get Fit RPG Logo",
                 modifier = Modifier.height(40.dp)
             )
-            Spacer(modifier = Modifier.size(48.dp))
+            Spacer(modifier = Modifier.size(48.dp)) // Spacer to balance the Row
         }
 
         Spacer(modifier = Modifier.height(40.dp))
@@ -89,7 +102,7 @@ fun OtpScreen(onBackClicked: () -> Unit, onVerifySuccess: () -> Unit) {
                 color = TextWhite,
                 fontWeight = FontWeight.Bold
             ),
-             modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth(),
             textAlign = TextAlign.Start
         )
 
@@ -99,7 +112,7 @@ fun OtpScreen(onBackClicked: () -> Unit, onVerifySuccess: () -> Unit) {
             text = "Enter verification code we just sent to your email address.",
             style = MaterialTheme.typography.bodyLarge.copy(color = TextGrey),
             textAlign = TextAlign.Start,
-             modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth(),
         )
 
         Spacer(modifier = Modifier.height(40.dp))
@@ -110,14 +123,31 @@ fun OtpScreen(onBackClicked: () -> Unit, onVerifySuccess: () -> Unit) {
             otpLength = otpLength
         )
 
+        message?.let {
+            Spacer(modifier = Modifier.height(10.dp))
+            Text(
+                text = it,
+                color = if (it.contains("Success", ignoreCase = true)) PrimaryGreen else ErrorRed,
+                fontFamily = MontserratFontFamily,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 16.dp, top = 4.dp)
+            )
+        }
         Spacer(modifier = Modifier.height(40.dp))
 
         Button(
-            onClick = onVerifySuccess, // Fixed: Connect to the navigation action
+            onClick = {
+                authManager.verifyPasswordResetCode(otpValue, onSuccess = {
+                    onVerifySuccess(otpValue)
+                }, onFailure = { error ->
+                    message = error.message
+                })
+            },
             modifier = Modifier
                 .fillMaxWidth()
                 .height(50.dp),
-            colors = ButtonDefaults.buttonColors(containerColor = PrimaryGreen),
+            colors = ButtonDefaults.buttonColors(containerColor = AccentYellow),
             shape = RoundedCornerShape(12.dp),
             enabled = otpValue.length == otpLength
         ) {
@@ -126,7 +156,7 @@ fun OtpScreen(onBackClicked: () -> Unit, onVerifySuccess: () -> Unit) {
 
         Spacer(modifier = Modifier.weight(1f))
 
-        TextButton(onClick = { /* Handle resend */ }) {
+        TextButton(onClick = { /* Handle resend logic here */ }) {
             Text(
                 "Didn't receive code? Resend",
                 color = TextWhite,
@@ -149,9 +179,16 @@ fun OtpTextField(
                 onValueChange(it)
             }
         },
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.NumberPassword),
+        // Changed to Number so digits are visible, strict Password hides them with dots
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+        // Hide the actual BasicTextField text so it doesn't overlap our custom boxes
+        textStyle = TextStyle(color = Color.Transparent),
+        singleLine = true,
         decorationBox = {
-            Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterHorizontally),
+                modifier = Modifier.fillMaxWidth()
+            ) {
                 repeat(otpLength) { index ->
                     val char = value.getOrNull(index)
                     val isFocused = value.length == index
@@ -160,14 +197,14 @@ fun OtpTextField(
                         modifier = Modifier
                             .size(60.dp)
                             .background(
-                                if (char != null) Color.White else Color.Transparent, // Fixed: Transparent background when empty
+                                if (char != null) Color.White else Color.Transparent,
                                 RoundedCornerShape(12.dp)
                             )
                             .border(
                                 width = 1.dp,
                                 color = when {
                                     isFocused -> PrimaryGreen
-                                    char != null -> Color.Transparent // Fixed: No border when filled
+                                    char != null -> Color.Transparent
                                     else -> TextGrey
                                 },
                                 shape = RoundedCornerShape(12.dp)
@@ -193,7 +230,8 @@ fun OtpTextField(
 @Composable
 fun OtpScreenPreview() {
     GetFitRPGTheme {
-        // Fixed: Add the new parameter to the preview
-        OtpScreen(onBackClicked = {}, onVerifySuccess = {})
+        // Warning: Passing a real AuthManager here might crash if it needs Context/Dependencies.
+        // For UI preview purposes, passing a dummy or mocking is safer if AuthManager is complex.
+        OtpScreen(authManager = AuthManager(), onBackClicked = {}, onVerifySuccess = {})
     }
 }

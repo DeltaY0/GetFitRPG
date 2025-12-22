@@ -18,8 +18,6 @@ import androidx.compose.material.icons.filled.Fingerprint
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
@@ -49,16 +47,19 @@ import com.example.getfitrpg.core.designsystem.MontserratFontFamily
 import com.example.getfitrpg.core.designsystem.PrimaryGreen
 import com.example.getfitrpg.core.designsystem.TextGrey
 import com.example.getfitrpg.core.designsystem.TextWhite
+import com.example.getfitrpg.feature.auth.AuthManager
 
 @Composable
 fun LoginScreen(
     onLoginSuccess: () -> Unit,
     onNavigateToSignup: () -> Unit,
-    onNavigateToForgotPassword: () -> Unit
+    onNavigateToForgotPassword: () -> Unit,
+    authManager: AuthManager
 ) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var isEmailValid by remember { mutableStateOf(true) }
+    var loginMessage by remember { mutableStateOf<String?>(null) }
 
     Column(
         modifier = Modifier
@@ -149,6 +150,18 @@ fun LoginScreen(
             shape = RoundedCornerShape(12.dp),
             singleLine = true
         )
+
+        loginMessage?.let {
+            Spacer(modifier = Modifier.height(10.dp))
+            Text(
+                text = it,
+                color = if (it.contains("Success")) PrimaryGreen else ErrorRed,
+                fontFamily = MontserratFontFamily,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 16.dp, top = 4.dp)
+            )
+        }
         
         TextButton(onClick = onNavigateToForgotPassword, modifier = Modifier.fillMaxWidth()) {
             Text("Forgot Password?", color = TextWhite, textAlign = TextAlign.End)
@@ -157,7 +170,14 @@ fun LoginScreen(
         Spacer(modifier = Modifier.height(10.dp))
 
         Button(
-            onClick = onLoginSuccess,
+            onClick = {
+                authManager.signIn(email, password, onSuccess = {
+                    loginMessage = "Login Success!"
+                    onLoginSuccess()
+                }, onFailure = {
+                    loginMessage = it.message
+                })
+            },
             modifier = Modifier
                 .fillMaxWidth()
                 .height(50.dp),
@@ -204,6 +224,6 @@ fun LoginScreen(
 @Composable
 fun LoginScreenPreview() {
     GetFitRPGTheme {
-        LoginScreen(onLoginSuccess = {}, onNavigateToSignup = {}, onNavigateToForgotPassword = {})
+        LoginScreen(onLoginSuccess = {}, onNavigateToSignup = {}, onNavigateToForgotPassword = {}, authManager = AuthManager())
     }
 }
