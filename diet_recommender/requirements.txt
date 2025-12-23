@@ -1,0 +1,10 @@
+pandas>=1.5
+numpy
+scikit-learn
+pytest
+fastapi
+uvicorn[standard]
+joblib
+pydantic
+requests
+python-multipart

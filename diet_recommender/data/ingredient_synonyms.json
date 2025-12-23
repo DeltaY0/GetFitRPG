@@ -1,0 +1,21 @@
+{
+  "peanut": ["peanut", "peanuts", "groundnut", "arachis"],
+  "soy": ["soy", "soybean", "soya", "tofu", "edamame"],
+  "gluten": ["wheat", "gluten", "barley", "rye"],
+  "milk": ["milk", "dairy", "milkshake", "butter", "cheese"],
+  "egg": ["egg", "eggs", "omelet", "omelette"],
+  "tree_nut": ["almond", "walnut", "cashew", "pecan", "hazelnut", "macadamia"],
+  "shellfish": ["shrimp", "prawn", "crab", "lobster", "shellfish"],
+  "fish": ["salmon", "tuna", "trout", "cod", "fish", "tilapia", "halibut", "bass", "haddock"],
+  "sesame": ["sesame", "tahini", "sesam"],
+  "peach": ["peach", "peaches"],
+  "tomato": ["tomato", "tomatoes"],
+  "chicken": ["chicken", "poultry", "hen", "fowl"],
+  "beef": ["beef", "steak", "veal", "cow"],
+  "pork": ["pork", "pig", "ham", "bacon", "sausage"],
+  "lamb": ["lamb", "mutton", "sheep"],
+  "meat": ["meat", "beef", "pork", "lamb", "chicken", "turkey", "duck", "veal", "venison"],
+  "turkey": ["turkey", "poultry"],
+  "duck": ["duck", "poultry"],
+  "mushroom": ["mushroom", "fungi", "shiitake", "portobello"]
+}

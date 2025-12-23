@@ -1,3 +1,4 @@
+# Android
 *.iml
 .gradle
 /local.properties
@@ -13,3 +14,59 @@
 .externalNativeBuild
 .cxx
 local.properties
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+*.egg-info/
+
+# Models (too large for git)
+*.pt
+*.joblib
+*.h5
+*.pkl
+*.pth
+
+# Archives (too large for git)
+*.rar
+*.zip
+*.tar.gz
+*.7z
+
+# Datasets (too large for git)
+DataSets/
+**/DataSets/
+Food detection/DataSets/
+yolo_dataset/images/
+yolo_dataset/labels/
+Test Images/
+test_results/
+*.cache
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+*.ipynb
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Installers
+*.exe
+*.msi
+*.dmg
+
+# Keep these config files
+!data.yaml
+!food_data.yaml
+!food_data_subset.yaml
+>>>>>>> a66e612 (Add diet recommender and food detection modules)
