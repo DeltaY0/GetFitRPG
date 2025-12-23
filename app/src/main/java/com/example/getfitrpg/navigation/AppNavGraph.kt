@@ -11,9 +11,12 @@ import com.example.getfitrpg.feature.auth.AuthManager
 import com.example.getfitrpg.feature.auth.ForgetPassword.ForgetPassword1Screen
 import com.example.getfitrpg.feature.auth.ForgetPassword.ForgetPassword2Screen
 import com.example.getfitrpg.feature.auth.ForgetPassword.ForgetPassword3Screen
-import com.example.getfitrpg.feature.auth.ForgetPassword.OtpScreen // Import added here
+import com.example.getfitrpg.feature.auth.ForgetPassword.OtpScreen
 import com.example.getfitrpg.feature.auth.login.LoginScreen
+import com.example.getfitrpg.feature.auth.signup.HeightScreen
+import com.example.getfitrpg.feature.auth.signup.OnboardingScreen
 import com.example.getfitrpg.feature.auth.signup.SignupScreen
+import com.example.getfitrpg.feature.auth.signup.WeightScreen
 import com.example.getfitrpg.feature.splash.SplashScreen
 
 @Composable
@@ -71,11 +74,45 @@ fun AppNavGraph(
             SignupScreen(
                 authManager = authManager,
                 onRegisterClicked = {
+                    // After successful signup, go to Onboarding
+                    navController.navigate(Screen.Onboarding.route)
+                },
+                onLoginClicked = { navController.popBackStack() }
+            )
+        }
+
+        composable(Screen.Onboarding.route) {
+            OnboardingScreen(
+                onStartClicked = {
+                    navController.navigate(Screen.Weight.route)
+                }
+            )
+        }
+
+        composable(Screen.Weight.route) {
+            WeightScreen(
+                onNextClicked = {
+                    navController.navigate(Screen.Height.route)
+                },
+                onBackClicked = {
+                    navController.popBackStack()
+                },
+                authManager = authManager
+            )
+        }
+
+        composable(Screen.Height.route) {
+            HeightScreen(
+                onNextClicked = {
                     navController.navigate(Screen.Home.route) {
+                        // Clear the back stack up to Login so user can't go back to signup flow
                         popUpTo(Screen.Login.route) { inclusive = true }
                     }
                 },
-                onLoginClicked = { navController.popBackStack() }
+                onBackClicked = {
+                    navController.popBackStack()
+                },
+                authManager = authManager
             )
         }
 
@@ -167,6 +204,9 @@ sealed class Screen(val route: String) {
     object Splash : Screen("splash")
     object Login : Screen("login")
     object Signup : Screen("signup")
+    object Onboarding : Screen("onboarding")
+    object Weight : Screen("weight")
+    object Height : Screen("height")
     object ForgetPassword1 : Screen("forget_password_1")
     object Otp : Screen("otp")
     object ForgetPassword2 : Screen("forget_password_2")

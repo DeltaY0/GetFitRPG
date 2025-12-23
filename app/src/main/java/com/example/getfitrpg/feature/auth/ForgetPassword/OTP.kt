@@ -43,14 +43,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.getfitrpg.R
 // Ensure these imports match your actual package structure
-import com.example.getfitrpg.core.designsystem.AccentYellow
-import com.example.getfitrpg.core.designsystem.BackgroundDark
-import com.example.getfitrpg.core.designsystem.ErrorRed
+import com.example.getfitrpg.core.designsystem.RPGYellow
+import com.example.getfitrpg.core.designsystem.RPGBackgroundDark
+import com.example.getfitrpg.core.designsystem.RPGErrorRed
 import com.example.getfitrpg.core.designsystem.GetFitRPGTheme
 import com.example.getfitrpg.core.designsystem.MontserratFontFamily
-import com.example.getfitrpg.core.designsystem.PrimaryGreen
-import com.example.getfitrpg.core.designsystem.TextGrey
-import com.example.getfitrpg.core.designsystem.TextWhite
+import com.example.getfitrpg.core.designsystem.RPGGreen
+import com.example.getfitrpg.core.designsystem.RPGGrey
+import com.example.getfitrpg.core.designsystem.RPGWhite
 import com.example.getfitrpg.feature.auth.AuthManager
 
 @Composable
@@ -66,7 +66,7 @@ fun OtpScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(BackgroundDark)
+            .background(RPGBackgroundDark)
             .padding(32.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -79,9 +79,9 @@ fun OtpScreen(
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                     contentDescription = "Back",
-                    tint = TextWhite,
+                    tint = RPGWhite,
                     modifier = Modifier
-                        .background(TextGrey.copy(alpha = 0.5f), RoundedCornerShape(8.dp))
+                        .background(RPGGrey.copy(alpha = 0.5f), RoundedCornerShape(8.dp))
                         .padding(4.dp)
                 )
             }
@@ -99,7 +99,7 @@ fun OtpScreen(
             text = "OTP Verification",
             style = MaterialTheme.typography.titleMedium.copy(
                 fontSize = 24.sp,
-                color = TextWhite,
+                color = RPGWhite,
                 fontWeight = FontWeight.Bold
             ),
             modifier = Modifier.fillMaxWidth(),
@@ -110,7 +110,7 @@ fun OtpScreen(
 
         Text(
             text = "Enter verification code we just sent to your email address.",
-            style = MaterialTheme.typography.bodyLarge.copy(color = TextGrey),
+            style = MaterialTheme.typography.bodyLarge.copy(color = RPGGrey),
             textAlign = TextAlign.Start,
             modifier = Modifier.fillMaxWidth(),
         )
@@ -127,7 +127,7 @@ fun OtpScreen(
             Spacer(modifier = Modifier.height(10.dp))
             Text(
                 text = it,
-                color = if (it.contains("Success", ignoreCase = true)) PrimaryGreen else ErrorRed,
+                color = if (it.contains("Success", ignoreCase = true)) RPGGreen else RPGErrorRed,
                 fontFamily = MontserratFontFamily,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -147,7 +147,7 @@ fun OtpScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(50.dp),
-            colors = ButtonDefaults.buttonColors(containerColor = AccentYellow),
+            colors = ButtonDefaults.buttonColors(containerColor = RPGYellow),
             shape = RoundedCornerShape(12.dp),
             enabled = otpValue.length == otpLength
         ) {
@@ -159,7 +159,7 @@ fun OtpScreen(
         TextButton(onClick = { /* Handle resend logic here */ }) {
             Text(
                 "Didn't receive code? Resend",
-                color = TextWhite,
+                color = RPGWhite,
                 fontWeight = FontWeight.Medium
             )
         }
@@ -203,9 +203,9 @@ fun OtpTextField(
                             .border(
                                 width = 1.dp,
                                 color = when {
-                                    isFocused -> PrimaryGreen
+                                    isFocused -> RPGGreen
                                     char != null -> Color.Transparent
-                                    else -> TextGrey
+                                    else -> RPGGrey
                                 },
                                 shape = RoundedCornerShape(12.dp)
                             ),

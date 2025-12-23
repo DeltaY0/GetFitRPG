@@ -38,7 +38,21 @@ val AppTypography = Typography(
         fontFamily = OnderFontFamily,
         fontWeight = FontWeight.Normal,
         fontSize = 15.sp,
-        color = PrimaryGreen
+        color = RPGGreen
+    ),
+
+    headlineMedium = TextStyle(
+        fontFamily = OnderFontFamily,
+        fontWeight = FontWeight.Normal,
+        fontSize = 12.sp,
+        color = RPGGreen
+    ),
+
+    headlineSmall = TextStyle(
+        fontFamily = OnderFontFamily,
+        fontWeight = FontWeight.Normal,
+        fontSize = 10.sp,
+        color = RPGGreen
     ),
 
     // Section Headers: "Current Quest" / "Dashboard"
@@ -46,7 +60,7 @@ val AppTypography = Typography(
         fontFamily = MontserratFontFamily,
         fontWeight = FontWeight.Bold,
         fontSize = 20.sp,
-        color = TextWhite
+        color = RPGWhite
     ),
 
     // Stats / Data: "XP: 500" / "STR: 10" -> Monospace is key for the System look
@@ -54,7 +68,7 @@ val AppTypography = Typography(
         fontFamily = MontserratFontFamily,
         fontWeight = FontWeight.Medium,
         fontSize = 14.sp,
-        color = TextGrey // Using your simplified Grey
+        color = RPGGrey // Using your simplified Grey
     ),
 
     // Standard Body Text
@@ -62,6 +76,6 @@ val AppTypography = Typography(
         fontFamily = MontserratFontFamily,
         fontWeight = FontWeight.Normal,
         fontSize = 16.sp,
-        color = TextWhite
+        color = RPGWhite
     )
 )

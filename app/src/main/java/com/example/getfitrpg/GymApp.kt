@@ -14,9 +14,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 
-import com.example.getfitrpg.core.designsystem.BackgroundDark
+import com.example.getfitrpg.core.designsystem.RPGBackgroundDark
 import com.example.getfitrpg.core.designsystem.GetFitRPGTheme
-import com.example.getfitrpg.core.designsystem.PrimaryGreen
+import com.example.getfitrpg.core.designsystem.RPGGreen
 import com.example.getfitrpg.navigation.AppNavGraph
 import com.example.getfitrpg.navigation.Screen
 import com.example.getfitrpg.navigation.components.AnimatedBottomBar
@@ -58,7 +58,7 @@ fun MainScreen(oobCode: String? = null) {
                 )
             }
         },
-        containerColor = BackgroundDark
+        containerColor = RPGBackgroundDark
     ) { innerPadding ->
         AppNavGraph(
             navController = navController,
@@ -73,13 +73,13 @@ fun PlaceholderScreen(title: String) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(BackgroundDark),
+            .background(RPGBackgroundDark),
         contentAlignment = Alignment.Center
     ) {
         Text(
             text = title,
             style = androidx.compose.material3.MaterialTheme.typography.headlineLarge,
-            color = PrimaryGreen
+            color = RPGGreen
         )
     }
 }

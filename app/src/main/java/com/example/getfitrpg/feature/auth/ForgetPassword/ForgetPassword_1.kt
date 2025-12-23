@@ -40,14 +40,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.getfitrpg.R
-import com.example.getfitrpg.core.designsystem.AccentYellow
-import com.example.getfitrpg.core.designsystem.BackgroundDark
-import com.example.getfitrpg.core.designsystem.ErrorRed
+import com.example.getfitrpg.core.designsystem.RPGYellow
+import com.example.getfitrpg.core.designsystem.RPGBackgroundDark
+import com.example.getfitrpg.core.designsystem.RPGErrorRed
 import com.example.getfitrpg.core.designsystem.GetFitRPGTheme
 import com.example.getfitrpg.core.designsystem.MontserratFontFamily
-import com.example.getfitrpg.core.designsystem.PrimaryGreen
-import com.example.getfitrpg.core.designsystem.TextGrey
-import com.example.getfitrpg.core.designsystem.TextWhite
+import com.example.getfitrpg.core.designsystem.RPGGreen
+import com.example.getfitrpg.core.designsystem.RPGGrey
+import com.example.getfitrpg.core.designsystem.RPGWhite
 import com.example.getfitrpg.feature.auth.AuthManager
 
 @Composable
@@ -57,6 +57,7 @@ fun ForgetPassword1Screen(
     onLoginClicked: () -> Unit,
     onNavigateToOtp: () -> Unit // 1. Added callback for navigation
 ) {
+    // TODO: redo the forget password screens
     var email by remember { mutableStateOf("") }
     var message by remember { mutableStateOf<String?>(null) }
     // A simple regex check for UI feedback
@@ -65,7 +66,7 @@ fun ForgetPassword1Screen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(BackgroundDark)
+            .background(RPGBackgroundDark)
             .padding(32.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -81,9 +82,9 @@ fun ForgetPassword1Screen(
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                     contentDescription = "Back",
-                    tint = TextWhite,
+                    tint = RPGWhite,
                     modifier = Modifier
-                        .background(TextGrey.copy(alpha = 0.5f), RoundedCornerShape(8.dp))
+                        .background(RPGGrey.copy(alpha = 0.5f), RoundedCornerShape(8.dp))
                         .padding(4.dp)
                 )
             }
@@ -100,7 +101,7 @@ fun ForgetPassword1Screen(
             text = "Forgot Password?",
             style = MaterialTheme.typography.titleMedium.copy(
                 fontSize = 24.sp,
-                color = TextWhite,
+                color = RPGWhite,
                 fontWeight = FontWeight.Bold
             ),
             modifier = Modifier.fillMaxWidth(),
@@ -111,7 +112,7 @@ fun ForgetPassword1Screen(
 
         Text(
             text = "Enter email address linked with your account.",
-            style = MaterialTheme.typography.bodyLarge.copy(color = TextGrey),
+            style = MaterialTheme.typography.bodyLarge.copy(color = RPGGrey),
             textAlign = TextAlign.Start,
             modifier = Modifier.fillMaxWidth(),
         )
@@ -123,7 +124,7 @@ fun ForgetPassword1Screen(
             onValueChange = { email = it },
             placeholder = {
                 Text(
-                    color = TextGrey,
+                    color = RPGGrey,
                     text = "Email",
                     fontFamily = MontserratFontFamily,
                     fontWeight = FontWeight.Medium
@@ -144,13 +145,13 @@ fun ForgetPassword1Screen(
                 disabledContainerColor = Color.White,
                 focusedTextColor = Color.Black,
                 unfocusedTextColor = Color.Black,
-                focusedTrailingIconColor = TextGrey,
-                unfocusedTrailingIconColor = TextGrey,
-                unfocusedPlaceholderColor = TextGrey,
-                focusedPlaceholderColor = TextGrey,
+                focusedTrailingIconColor = RPGGrey,
+                unfocusedTrailingIconColor = RPGGrey,
+                unfocusedPlaceholderColor = RPGGrey,
+                focusedPlaceholderColor = RPGGrey,
                 unfocusedBorderColor = Color.Transparent,
                 focusedBorderColor = Color.Transparent,
-                errorBorderColor = ErrorRed,
+                errorBorderColor = RPGErrorRed,
                 errorContainerColor = Color.White,
             ),
             shape = RoundedCornerShape(12.dp),
@@ -161,7 +162,7 @@ fun ForgetPassword1Screen(
             Spacer(modifier = Modifier.height(10.dp))
             Text(
                 text = it,
-                color = if (it.contains("Success", ignoreCase = true)) PrimaryGreen else ErrorRed,
+                color = if (it.contains("Success", ignoreCase = true)) RPGGreen else RPGErrorRed,
                 fontFamily = MontserratFontFamily,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -184,7 +185,7 @@ fun ForgetPassword1Screen(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(50.dp),
-            colors = ButtonDefaults.buttonColors(containerColor = AccentYellow),
+            colors = ButtonDefaults.buttonColors(containerColor = RPGYellow),
             shape = RoundedCornerShape(12.dp),
             enabled = isEmailValid
         ) {
@@ -196,7 +197,7 @@ fun ForgetPassword1Screen(
         TextButton(onClick = onLoginClicked) {
             Text(
                 "Remember Password? Login",
-                color = TextWhite,
+                color = RPGWhite,
                 fontWeight = FontWeight.Medium,
                 fontSize = 20.sp
             )

@@ -42,14 +42,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.getfitrpg.R
-import com.example.getfitrpg.core.designsystem.AccentYellow
-import com.example.getfitrpg.core.designsystem.BackgroundDark
-import com.example.getfitrpg.core.designsystem.ErrorRed
+import com.example.getfitrpg.core.designsystem.RPGYellow
+import com.example.getfitrpg.core.designsystem.RPGBackgroundDark
+import com.example.getfitrpg.core.designsystem.RPGErrorRed
 import com.example.getfitrpg.core.designsystem.GetFitRPGTheme
 import com.example.getfitrpg.core.designsystem.MontserratFontFamily
-import com.example.getfitrpg.core.designsystem.PrimaryGreen
-import com.example.getfitrpg.core.designsystem.TextGrey
-import com.example.getfitrpg.core.designsystem.TextWhite
+import com.example.getfitrpg.core.designsystem.RPGGreen
+import com.example.getfitrpg.core.designsystem.RPGGrey
+import com.example.getfitrpg.core.designsystem.RPGWhite
 import com.example.getfitrpg.feature.auth.AuthManager
 
 @Composable
@@ -67,7 +67,7 @@ fun ForgetPassword2Screen(authManager: AuthManager, code: String, onBackClicked:
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(BackgroundDark)
+            .background(RPGBackgroundDark)
             .padding(32.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -80,9 +80,9 @@ fun ForgetPassword2Screen(authManager: AuthManager, code: String, onBackClicked:
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                     contentDescription = "Back",
-                    tint = TextWhite,
+                    tint = RPGWhite,
                     modifier = Modifier
-                        .background(TextGrey.copy(alpha = 0.5f), RoundedCornerShape(8.dp))
+                        .background(RPGGrey.copy(alpha = 0.5f), RoundedCornerShape(8.dp))
                         .padding(4.dp)
                 )
             }
@@ -101,7 +101,7 @@ fun ForgetPassword2Screen(authManager: AuthManager, code: String, onBackClicked:
             text = "Create New Password",
             style = MaterialTheme.typography.titleMedium.copy(
                 fontSize = 24.sp,
-                color = TextWhite,
+                color = RPGWhite,
                 fontWeight = FontWeight.Bold,
                 fontFamily = MontserratFontFamily
             ),
@@ -113,7 +113,7 @@ fun ForgetPassword2Screen(authManager: AuthManager, code: String, onBackClicked:
 
         Text(
             text = "Your new password must be unique from those previously used.",
-            style = MaterialTheme.typography.bodyLarge.copy(color = TextGrey, fontFamily = MontserratFontFamily),
+            style = MaterialTheme.typography.bodyLarge.copy(color = RPGGrey, fontFamily = MontserratFontFamily),
             textAlign = TextAlign.Start,
             modifier = Modifier.fillMaxWidth(),
         )
@@ -123,7 +123,7 @@ fun ForgetPassword2Screen(authManager: AuthManager, code: String, onBackClicked:
         OutlinedTextField(
             value = newPassword,
             onValueChange = { newPassword = it },
-            placeholder = { Text("New Password", fontFamily = MontserratFontFamily, color = TextGrey) },
+            placeholder = { Text("New Password", fontFamily = MontserratFontFamily, color = RPGGrey) },
             textStyle = TextStyle(fontFamily = MontserratFontFamily, fontWeight = FontWeight.Medium, fontSize = 16.sp, color = Color.Black),
             modifier = Modifier.fillMaxWidth(),
             isError = !isNewPasswordStrong && newPassword.isNotEmpty(),
@@ -132,7 +132,7 @@ fun ForgetPassword2Screen(authManager: AuthManager, code: String, onBackClicked:
             trailingIcon = {
                 val image = if (newPasswordVisible) Icons.Filled.VisibilityOff else Icons.Filled.Visibility
                 IconButton(onClick = { newPasswordVisible = !newPasswordVisible }) {
-                    Icon(imageVector = image, contentDescription = if (newPasswordVisible) "Hide password" else "Show password", tint = TextGrey)
+                    Icon(imageVector = image, contentDescription = if (newPasswordVisible) "Hide password" else "Show password", tint = RPGGrey)
                 }
             },
             colors = OutlinedTextFieldDefaults.colors(
@@ -142,7 +142,7 @@ fun ForgetPassword2Screen(authManager: AuthManager, code: String, onBackClicked:
                 unfocusedTextColor = Color.Black,
                 unfocusedBorderColor = Color.Transparent,
                 focusedBorderColor = Color.Transparent,
-                errorBorderColor = ErrorRed,
+                errorBorderColor = RPGErrorRed,
                 errorContainerColor = Color.White
             ),
             shape = RoundedCornerShape(12.dp),
@@ -151,7 +151,7 @@ fun ForgetPassword2Screen(authManager: AuthManager, code: String, onBackClicked:
         if (!isNewPasswordStrong && newPassword.isNotEmpty()) {
             Text(
                 text = "Password must be 8+ characters and contain a number.",
-                color = ErrorRed,
+                color = RPGErrorRed,
                 fontFamily = MontserratFontFamily,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -164,7 +164,7 @@ fun ForgetPassword2Screen(authManager: AuthManager, code: String, onBackClicked:
         OutlinedTextField(
             value = confirmPassword,
             onValueChange = { confirmPassword = it },
-            placeholder = { Text("Confirm Password", fontFamily = MontserratFontFamily, color = TextGrey) },
+            placeholder = { Text("Confirm Password", fontFamily = MontserratFontFamily, color = RPGGrey) },
             textStyle = TextStyle(fontFamily = MontserratFontFamily, fontWeight = FontWeight.Medium, fontSize = 16.sp, color = Color.Black),
             modifier = Modifier.fillMaxWidth(),
             isError = !passwordsMatch && confirmPassword.isNotEmpty(),
@@ -173,7 +173,7 @@ fun ForgetPassword2Screen(authManager: AuthManager, code: String, onBackClicked:
             trailingIcon = {
                 val image = if (confirmPasswordVisible) Icons.Filled.VisibilityOff else Icons.Filled.Visibility
                 IconButton(onClick = { confirmPasswordVisible = !confirmPasswordVisible }) {
-                    Icon(imageVector = image, contentDescription = if (confirmPasswordVisible) "Hide password" else "Show password", tint = TextGrey)
+                    Icon(imageVector = image, contentDescription = if (confirmPasswordVisible) "Hide password" else "Show password", tint = RPGGrey)
                 }
             },
             colors = OutlinedTextFieldDefaults.colors(
@@ -183,7 +183,7 @@ fun ForgetPassword2Screen(authManager: AuthManager, code: String, onBackClicked:
                 unfocusedTextColor = Color.Black,
                 unfocusedBorderColor = Color.Transparent,
                 focusedBorderColor = Color.Transparent,
-                errorBorderColor = ErrorRed,
+                errorBorderColor = RPGErrorRed,
                 errorContainerColor = Color.White
             ),
             shape = RoundedCornerShape(12.dp),
@@ -192,7 +192,7 @@ fun ForgetPassword2Screen(authManager: AuthManager, code: String, onBackClicked:
         if (!passwordsMatch && confirmPassword.isNotEmpty()) {
             Text(
                 text = "Passwords do not match.",
-                color = ErrorRed,
+                color = RPGErrorRed,
                 fontFamily = MontserratFontFamily,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -204,7 +204,7 @@ fun ForgetPassword2Screen(authManager: AuthManager, code: String, onBackClicked:
             Spacer(modifier = Modifier.height(10.dp))
             Text(
                 text = it,
-                color = if (it.contains("Success")) PrimaryGreen else ErrorRed,
+                color = if (it.contains("Success")) RPGGreen else RPGErrorRed,
                 fontFamily = MontserratFontFamily,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -226,7 +226,7 @@ fun ForgetPassword2Screen(authManager: AuthManager, code: String, onBackClicked:
             modifier = Modifier
                 .fillMaxWidth()
                 .height(50.dp),
-            colors = ButtonDefaults.buttonColors(containerColor = AccentYellow),
+            colors = ButtonDefaults.buttonColors(containerColor = RPGYellow),
             shape = RoundedCornerShape(12.dp),
             enabled = passwordsMatch && isNewPasswordStrong && newPassword.isNotEmpty()
         ) {

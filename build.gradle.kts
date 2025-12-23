@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.kotlin.compose) apply false
     kotlin("jvm") version "2.2.20"
     kotlin("plugin.serialization") version "2.2.20"
+    alias(libs.plugins.google.gms.google.services) apply false
 }
 
 dependencies {

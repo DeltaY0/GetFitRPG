@@ -32,19 +32,19 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.getfitrpg.R
-import com.example.getfitrpg.core.designsystem.BackgroundDark
+import com.example.getfitrpg.core.designsystem.RPGBackgroundDark
 import com.example.getfitrpg.core.designsystem.GetFitRPGTheme
 import com.example.getfitrpg.core.designsystem.MontserratFontFamily
-import com.example.getfitrpg.core.designsystem.PrimaryGreen
-import com.example.getfitrpg.core.designsystem.TextGrey
-import com.example.getfitrpg.core.designsystem.TextWhite
+import com.example.getfitrpg.core.designsystem.RPGGreen
+import com.example.getfitrpg.core.designsystem.RPGGrey
+import com.example.getfitrpg.core.designsystem.RPGWhite
 
 @Composable
 fun ForgetPassword3Screen(onBackToLoginClicked: () -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(BackgroundDark)
+            .background(RPGBackgroundDark)
             .padding(32.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -57,9 +57,9 @@ fun ForgetPassword3Screen(onBackToLoginClicked: () -> Unit) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                     contentDescription = "Back",
-                    tint = TextWhite,
+                    tint = RPGWhite,
                     modifier = Modifier
-                        .background(TextGrey.copy(alpha = 0.5f), RoundedCornerShape(8.dp))
+                        .background(RPGGrey.copy(alpha = 0.5f), RoundedCornerShape(8.dp))
                         .padding(4.dp)
                 )
             }
@@ -77,7 +77,7 @@ fun ForgetPassword3Screen(onBackToLoginClicked: () -> Unit) {
         Icon(
             imageVector = Icons.Filled.Check,
             contentDescription = "Success Checkmark",
-            tint = PrimaryGreen,
+            tint = RPGGreen,
             modifier = Modifier.size(120.dp)
         )
 
@@ -87,7 +87,7 @@ fun ForgetPassword3Screen(onBackToLoginClicked: () -> Unit) {
             text = "Password Changed!",
             style = MaterialTheme.typography.titleMedium.copy(
                 fontSize = 24.sp,
-                color = TextWhite,
+                color = RPGWhite,
                 fontWeight = FontWeight.Bold,
                 fontFamily = MontserratFontFamily
             ),
@@ -98,7 +98,7 @@ fun ForgetPassword3Screen(onBackToLoginClicked: () -> Unit) {
 
         Text(
             text = "Your password has been changed successfully.",
-            style = MaterialTheme.typography.bodyLarge.copy(color = TextGrey, fontFamily = MontserratFontFamily),
+            style = MaterialTheme.typography.bodyLarge.copy(color = RPGGrey, fontFamily = MontserratFontFamily),
             textAlign = TextAlign.Center,
         )
 
@@ -109,7 +109,7 @@ fun ForgetPassword3Screen(onBackToLoginClicked: () -> Unit) {
             modifier = Modifier
                 .fillMaxWidth()
                 .height(50.dp)
-                .border(width = 2.dp, color = PrimaryGreen, shape = RoundedCornerShape(12.dp)),
+                .border(width = 2.dp, color = RPGGreen, shape = RoundedCornerShape(12.dp)),
             colors = ButtonDefaults.buttonColors(containerColor = Color.White),
             shape = RoundedCornerShape(12.dp),
         ) {

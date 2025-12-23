@@ -11,19 +11,14 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -34,9 +29,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -46,12 +39,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.getfitrpg.R
-import com.example.getfitrpg.core.designsystem.ErrorRed
 import com.example.getfitrpg.core.designsystem.GetFitRPGTheme
-import com.example.getfitrpg.core.designsystem.MontserratFontFamily
-import com.example.getfitrpg.core.designsystem.PrimaryGreen
-import com.example.getfitrpg.core.designsystem.TextGrey
-import com.example.getfitrpg.core.designsystem.TextWhite
+import com.example.getfitrpg.core.designsystem.RPGBackgroundDark
+import com.example.getfitrpg.core.designsystem.RPGErrorRed
+import com.example.getfitrpg.core.designsystem.RPGGreen
+import com.example.getfitrpg.core.designsystem.RPGGrey
+import com.example.getfitrpg.core.designsystem.RPGPurple
+import com.example.getfitrpg.core.designsystem.RPGWhite
+import com.example.getfitrpg.core.designsystem.components.RPGButton
+import com.example.getfitrpg.core.designsystem.components.RPGTextField
 import com.example.getfitrpg.feature.auth.AuthManager
 
 @Composable
@@ -77,7 +73,10 @@ fun SignupScreen(authManager: AuthManager, onLoginClicked: () -> Unit, onRegiste
             .fillMaxSize()
             .background(
                 brush = Brush.verticalGradient(
-                    colors = listOf(Color(0xFF1E293B), PrimaryGreen.copy(alpha = 0.6f))
+                    colors = listOf(
+                        RPGPurple,
+                        RPGBackgroundDark
+                    )
                 )
             )
             .padding(horizontal = 32.dp)
@@ -93,62 +92,32 @@ fun SignupScreen(authManager: AuthManager, onLoginClicked: () -> Unit, onRegiste
 
         Text(
             text = "SIGNUP",
-            style = MaterialTheme.typography.titleMedium.copy(
-                fontSize = 28.sp,
-                color = TextWhite,
-                fontWeight = FontWeight.Bold,
-                fontFamily = MontserratFontFamily
-            )
+            style = MaterialTheme.typography.titleMedium.copy(fontSize = 28.sp),
+            color = RPGWhite
         )
 
         Spacer(modifier = Modifier.height(30.dp))
 
-        OutlinedTextField(
+        RPGTextField(
             value = username,
             onValueChange = { username = it },
-            placeholder = { Text("Username", fontFamily = MontserratFontFamily, color = TextGrey) },
-            textStyle = TextStyle(fontFamily = MontserratFontFamily, fontWeight = FontWeight.Medium, fontSize = 16.sp, color = Color.Black),
-            modifier = Modifier.fillMaxWidth(),
-            colors = OutlinedTextFieldDefaults.colors(
-                focusedContainerColor = Color.White,
-                unfocusedContainerColor = Color.White,
-                focusedTextColor = Color.Black,
-                unfocusedTextColor = Color.Black,
-                unfocusedBorderColor = Color.Transparent,
-                focusedBorderColor = Color.Transparent,
-            ),
-            shape = RoundedCornerShape(12.dp),
-            singleLine = true
+            placeholder = "Username"
         )
 
         Spacer(modifier = Modifier.height(20.dp))
 
-        OutlinedTextField(
+        RPGTextField(
             value = email,
             onValueChange = { email = it },
-            placeholder = { Text("Email", fontFamily = MontserratFontFamily, color = TextGrey) },
-            textStyle = TextStyle(fontFamily = MontserratFontFamily, fontWeight = FontWeight.Medium, fontSize = 16.sp, color = Color.Black),
-            modifier = Modifier.fillMaxWidth(),
+            placeholder = "Email",
             isError = !isEmailValid && email.isNotEmpty(),
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
-            colors = OutlinedTextFieldDefaults.colors(
-                focusedContainerColor = Color.White,
-                unfocusedContainerColor = Color.White,
-                focusedTextColor = Color.Black,
-                unfocusedTextColor = Color.Black,
-                unfocusedBorderColor = Color.Transparent,
-                focusedBorderColor = Color.Transparent,
-                errorBorderColor = ErrorRed,
-                errorContainerColor = Color.White
-            ),
-            shape = RoundedCornerShape(12.dp),
-            singleLine = true
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
         )
         if (!isEmailValid && email.isNotEmpty()) {
             Text(
                 text = "Please enter a valid email address.",
-                color = ErrorRed,
-                fontFamily = MontserratFontFamily,
+                color = RPGErrorRed,
+                style = MaterialTheme.typography.bodyLarge,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(start = 16.dp, top = 4.dp)
@@ -157,39 +126,25 @@ fun SignupScreen(authManager: AuthManager, onLoginClicked: () -> Unit, onRegiste
 
         Spacer(modifier = Modifier.height(20.dp))
 
-        OutlinedTextField(
+        RPGTextField(
             value = password,
             onValueChange = { password = it },
-            placeholder = { Text("Password", fontFamily = MontserratFontFamily, color = TextGrey) },
-            textStyle = TextStyle(fontFamily = MontserratFontFamily, fontWeight = FontWeight.Medium, fontSize = 16.sp, color = Color.Black),
-            modifier = Modifier.fillMaxWidth(),
+            placeholder = "Password",
             isError = !isPasswordStrong && password.isNotEmpty(),
             visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
             trailingIcon = {
                 val image = if (passwordVisible) Icons.Filled.VisibilityOff else Icons.Filled.Visibility
                 IconButton(onClick = { passwordVisible = !passwordVisible }) {
-                    Icon(imageVector = image, contentDescription = if (passwordVisible) "Hide password" else "Show password", tint = TextGrey)
+                    Icon(imageVector = image, contentDescription = if (passwordVisible) "Hide password" else "Show password", tint = RPGGrey)
                 }
-            },
-            colors = OutlinedTextFieldDefaults.colors(
-                focusedContainerColor = Color.White,
-                unfocusedContainerColor = Color.White,
-                focusedTextColor = Color.Black,
-                unfocusedTextColor = Color.Black,
-                unfocusedBorderColor = Color.Transparent,
-                focusedBorderColor = Color.Transparent,
-                errorBorderColor = ErrorRed,
-                errorContainerColor = Color.White
-            ),
-            shape = RoundedCornerShape(12.dp),
-            singleLine = true
+            }
         )
         if (!isPasswordStrong && password.isNotEmpty()) {
             Text(
                 text = "Password must be 8+ characters and include a number.",
-                color = ErrorRed,
-                fontFamily = MontserratFontFamily,
+                color = RPGErrorRed,
+                style = MaterialTheme.typography.bodyLarge,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(start = 16.dp, top = 4.dp)
@@ -198,39 +153,25 @@ fun SignupScreen(authManager: AuthManager, onLoginClicked: () -> Unit, onRegiste
 
         Spacer(modifier = Modifier.height(20.dp))
 
-        OutlinedTextField(
+        RPGTextField(
             value = confirmPassword,
             onValueChange = { confirmPassword = it },
-            placeholder = { Text("Confirm Password", fontFamily = MontserratFontFamily, color = TextGrey) },
-            textStyle = TextStyle(fontFamily = MontserratFontFamily, fontWeight = FontWeight.Medium, fontSize = 16.sp, color = Color.Black),
-            modifier = Modifier.fillMaxWidth(),
+            placeholder = "Confirm Password",
             isError = !passwordsMatch && confirmPassword.isNotEmpty(),
             visualTransformation = if (confirmPasswordVisible) VisualTransformation.None else PasswordVisualTransformation(),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
             trailingIcon = {
                 val image = if (confirmPasswordVisible) Icons.Filled.VisibilityOff else Icons.Filled.Visibility
                 IconButton(onClick = { confirmPasswordVisible = !confirmPasswordVisible }) {
-                    Icon(imageVector = image, contentDescription = if (confirmPasswordVisible) "Hide password" else "Show password", tint = TextGrey)
+                    Icon(imageVector = image, contentDescription = if (confirmPasswordVisible) "Hide password" else "Show password", tint = RPGGrey)
                 }
-            },
-            colors = OutlinedTextFieldDefaults.colors(
-                focusedContainerColor = Color.White,
-                unfocusedContainerColor = Color.White,
-                focusedTextColor = Color.Black,
-                unfocusedTextColor = Color.Black,
-                unfocusedBorderColor = Color.Transparent,
-                focusedBorderColor = Color.Transparent,
-                errorBorderColor = ErrorRed,
-                errorContainerColor = Color.White
-            ),
-            shape = RoundedCornerShape(12.dp),
-            singleLine = true
+            }
         )
         if (!passwordsMatch && confirmPassword.isNotEmpty()) {
             Text(
                 text = "Passwords do not match.",
-                color = ErrorRed,
-                fontFamily = MontserratFontFamily,
+                color = RPGErrorRed,
+                style = MaterialTheme.typography.bodyLarge,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(start = 16.dp, top = 4.dp)
@@ -241,8 +182,8 @@ fun SignupScreen(authManager: AuthManager, onLoginClicked: () -> Unit, onRegiste
             Spacer(modifier = Modifier.height(10.dp))
             Text(
                 text = it,
-                color = if (it.contains("Success")) PrimaryGreen else ErrorRed,
-                fontFamily = MontserratFontFamily,
+                color = if (it.contains("Success")) RPGGreen else RPGErrorRed,
+                style = MaterialTheme.typography.bodyLarge,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(start = 16.dp, top = 4.dp)
@@ -251,53 +192,42 @@ fun SignupScreen(authManager: AuthManager, onLoginClicked: () -> Unit, onRegiste
 
         Spacer(modifier = Modifier.height(30.dp))
 
-        Button(
+        RPGButton(
+            text = "Register",
             onClick = {
-                authManager.createUser(username, email, password, onSuccess = {
-                    registrationMessage = "Registration Success! Verification email sent."
-                    onRegisterClicked()
-                }, onFailure = {
-                    registrationMessage = it.message
-                })
-            },
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(50.dp),
-            colors = ButtonDefaults.buttonColors(containerColor = PrimaryGreen),
-            shape = RoundedCornerShape(12.dp),
-            enabled = isFormValid
-        ) {
-            Text("Register", color = Color.Black, fontWeight = FontWeight.Bold, fontSize = 18.sp, fontFamily = MontserratFontFamily)
-        }
+                if (isFormValid) {
+                    authManager.createUser(username, email, password, onSuccess = {
+                        registrationMessage = "Registration Success! Verification email sent."
+                        onRegisterClicked()
+                    }, onFailure = {
+                        registrationMessage = it.message
+                    })
+                }
+            }
+        )
 
         Spacer(modifier = Modifier.height(20.dp))
 
         Text(
             text = "OR",
-            color = TextWhite,
+            color = RPGWhite,
             textAlign = TextAlign.Center,
-            fontWeight = FontWeight.Bold,
-            fontSize = 16.sp,
-            fontFamily = MontserratFontFamily
+            style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold, fontSize = 16.sp)
         )
 
         Spacer(modifier = Modifier.height(20.dp))
 
-        Button(
+        RPGButton(
+            text = "Signup with Google",
             onClick = { /* Handle Google signup */ },
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(50.dp),
-            colors = ButtonDefaults.buttonColors(containerColor = Color.White),
-            shape = RoundedCornerShape(12.dp)
-        ) {
-            Text("Signup with Google", color = Color.Black, fontWeight = FontWeight.Bold, fontSize = 18.sp, fontFamily = MontserratFontFamily)
-        }
+            containerColor = RPGWhite,
+            contentColor = RPGBackgroundDark
+        )
 
         Spacer(modifier = Modifier.height(16.dp))
 
         TextButton(onClick = onLoginClicked) {
-            Text("Already have an Account? Login", color = PrimaryGreen, fontWeight = FontWeight.Bold, fontFamily = MontserratFontFamily)
+            Text("Already have an Account? Login", color = RPGGreen, style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold))
         }
     }
 }
