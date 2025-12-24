@@ -27,7 +27,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -46,8 +45,7 @@ import androidx.compose.ui.unit.sp
 import com.example.getfitrpg.R
 import com.example.getfitrpg.core.designsystem.GetFitRPGTheme
 import com.example.getfitrpg.core.designsystem.MontserratFontFamily
-import com.example.getfitrpg.navigation.components.AnimatedBottomBar
-import com.example.getfitrpg.navigation.components.BottomNavItem
+
 val ScreenBackground = Color(0xFF101828)
 val CardBackground = Color(0xFF1E293B)
 val TextWhite = Color.White
@@ -58,46 +56,39 @@ val LevelProgressGreen = Color(0xFF4ADE80)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun WorkoutScreen() {
-    var selectedNavItem by remember { mutableStateOf(BottomNavItem.Workout) }
-
-    Scaffold(
-        containerColor = ScreenBackground,
-        bottomBar = { AnimatedBottomBar(selectedItem = selectedNavItem, onItemSelected = { selectedNavItem = it }) }
-    ) { paddingValues ->
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues)
-                .padding(horizontal = 16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(ScreenBackground)
+            .padding(horizontal = 16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        Spacer(modifier = Modifier.height(16.dp))
+        PlayerHeader()
+        Spacer(modifier = Modifier.height(24.dp))
+        PresetsHeader()
+        Spacer(modifier = Modifier.height(16.dp))
+        SearchPresets()
+        Spacer(modifier = Modifier.height(16.dp))
+        LazyColumn(
+            verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            Spacer(modifier = Modifier.height(16.dp))
-            PlayerHeader()
-            Spacer(modifier = Modifier.height(24.dp))
-            PresetsHeader()
-            Spacer(modifier = Modifier.height(16.dp))
-            SearchPresets()
-            Spacer(modifier = Modifier.height(16.dp))
-            LazyColumn(
-                verticalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                items(6) {
-                    PresetItem()
-                }
+            items(6) {
+                PresetItem()
             }
-            Spacer(modifier = Modifier.weight(1f))
-            Button(
-                onClick = { /*TODO*/ },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(50.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = LevelProgressGreen),
-                shape = RoundedCornerShape(12.dp)
-            ) {
-                Text("NEW PRESET", fontWeight = FontWeight.Bold, fontSize = 18.sp, fontFamily = MontserratFontFamily, color = ScreenBackground)
-            }
-            Spacer(modifier = Modifier.height(16.dp))
         }
+        Spacer(modifier = Modifier.weight(1f))
+        Button(
+            onClick = { /*TODO*/ },
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(50.dp),
+            colors = ButtonDefaults.buttonColors(containerColor = LevelProgressGreen),
+            shape = RoundedCornerShape(12.dp)
+        ) {
+            Text("NEW PRESET", fontWeight = FontWeight.Bold, fontSize = 18.sp, fontFamily = MontserratFontFamily, color = ScreenBackground)
+        }
+        Spacer(modifier = Modifier.height(16.dp))
     }
 }
 
@@ -154,7 +145,7 @@ fun PresetsHeader() {
             Icon(painter = painterResource(id = R.drawable.icon_discover), contentDescription = null, tint = TextWhite, modifier = Modifier.size(24.dp))
         }
         Spacer(modifier = Modifier.weight(1f))
-        Text(text = "MY\nPRESETS", color = TextWhite, fontWeight = FontWeight.Bold, fontSize = 24.sp, fontFamily = MontserratFontFamily, textAlign = TextAlign.End)
+        Text(text = "MY PRESETS", color = TextWhite, fontWeight = FontWeight.Bold, fontSize = 24.sp, fontFamily = MontserratFontFamily, textAlign = TextAlign.End)
     }
 }
 
