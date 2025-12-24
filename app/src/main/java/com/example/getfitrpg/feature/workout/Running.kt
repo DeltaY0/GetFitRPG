@@ -19,7 +19,6 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -30,6 +29,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.getfitrpg.R
 import com.example.getfitrpg.core.designsystem.GetFitRPGTheme
 import com.example.getfitrpg.core.designsystem.MontserratFontFamily
@@ -39,50 +39,45 @@ val ActiveExerciseBlue = Color(0xFF3B82F6)
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RunningWorkoutScreen() {
+fun RunningWorkoutScreen(navController: NavController) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(ScreenBackground)
+            .padding(horizontal = 16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        Spacer(modifier = Modifier.height(16.dp))
+        PlayerHeader()
+        Spacer(modifier = Modifier.height(24.dp))
 
-    Scaffold(
-        containerColor = ScreenBackground,
-        bottomBar = { PauseBottomBar() }
-    ) { paddingValues ->
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues)
-                .padding(horizontal = 16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
+        LazyColumn(
+            modifier = Modifier.weight(1f),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            Spacer(modifier = Modifier.height(16.dp))
-            PlayerHeader()
-            Spacer(modifier = Modifier.height(24.dp))
-
-            LazyColumn(
-                modifier = Modifier.weight(1f),
-                verticalArrangement = Arrangement.spacedBy(16.dp)
-            ) {
-                item {
-                    TrainingVideoPreview()
-                }
-                item {
-                    PowersetSection(number = 1, progress = "2/3")
-                }
-                item {
-                    ExerciseItem(reps = "0:30s", name = "HAMMER CURLS", isActive = true)
-                }
-                item {
-                    ExerciseItem(reps = "30r", name = "SITUPS")
-                }
-                item {
-                    ExerciseItem(reps = "15r", name = "PULL UPS")
-                }
-                item {
-                    PowersetSection(number = 2)
-                }
-                item {
-                    ExerciseItem(reps = "0:30s", name = "PULL UPS")
-                }
+            item {
+                TrainingVideoPreview()
+            }
+            item {
+                PowersetSection(number = 1, progress = "2/3")
+            }
+            item {
+                ExerciseItem(reps = "0:30s", name = "HAMMER CURLS", isActive = true)
+            }
+            item {
+                ExerciseItem(reps = "30r", name = "SITUPS")
+            }
+            item {
+                ExerciseItem(reps = "15r", name = "PULL UPS")
+            }
+            item {
+                PowersetSection(number = 2)
+            }
+            item {
+                ExerciseItem(reps = "0:30s", name = "PULL UPS")
             }
         }
+        PauseBottomBar(navController = navController)
     }
 }
 
@@ -167,13 +162,13 @@ fun ExerciseItem(reps: String, name: String, isActive: Boolean = false) {
 }
 
 @Composable
-fun PauseBottomBar() {
+fun PauseBottomBar(navController: NavController) {
     Box(
         modifier = Modifier.padding(16.dp).fillMaxWidth(),
         contentAlignment = Alignment.Center
     ) {
         Button(
-            onClick = { /* Handle pause */ },
+            onClick = { navController.popBackStack() },
             modifier = Modifier
                 .fillMaxWidth()
                 .height(60.dp),
@@ -194,6 +189,6 @@ fun PauseBottomBar() {
 @Composable
 fun RunningWorkoutScreenPreview() {
     GetFitRPGTheme {
-        RunningWorkoutScreen()
+        // RunningWorkoutScreen() // This will not work with a NavController
     }
 }

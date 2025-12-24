@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.material.icons.filled.Chat
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -33,6 +34,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.getfitrpg.core.designsystem.GetFitRPGTheme
 import com.example.getfitrpg.core.designsystem.MontserratFontFamily
 import com.example.getfitrpg.core.designsystem.RPGBackgroundBlue
@@ -40,7 +42,7 @@ import com.example.getfitrpg.core.designsystem.RPGGreen
 import com.example.getfitrpg.core.designsystem.RPGWhite
 
 @Composable
-fun WorkoutPlanAIScreen() {
+fun WorkoutPlanAIScreen(navController: NavController) {
     var messageInput by remember { mutableStateOf("") }
     val messages = remember { mutableStateOf<List<String>>(emptyList()) }
 
@@ -52,7 +54,7 @@ fun WorkoutPlanAIScreen() {
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         // Header
-        WorkoutPlanHeader()
+        WorkoutPlanHeader(onBackClick = { navController.popBackStack() })
 
         Spacer(modifier = Modifier.height(8.dp))
 
@@ -128,23 +130,14 @@ fun WorkoutPlanAIScreen() {
 }
 
 @Composable
-private fun WorkoutPlanHeader() {
+private fun WorkoutPlanHeader(onBackClick: () -> Unit) {
     Column(modifier = Modifier.fillMaxWidth()) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            Box(
-                modifier = Modifier
-                    .size(32.dp)
-                    .background(Color(0xFFFBBF24), RoundedCornerShape(4.dp)),
-                contentAlignment = Alignment.Center
-            ) {
-                Text(text = "R", color = Color(0xFF0B1220), fontWeight = FontWeight.Bold, fontSize = 20.sp)
-            }
-            Column {
-                Text(text = "PLAYER NAME", color = Color(0xFF6B7280), fontSize = 12.sp, fontFamily = MontserratFontFamily)
-                Text(text = "CLASS NAME", color = RPGWhite, fontWeight = FontWeight.Bold, fontSize = 16.sp, fontFamily = MontserratFontFamily)
+            IconButton(onClick = onBackClick) {
+                Icon(Icons.Default.ArrowBackIosNew, contentDescription = "Back", tint = RPGWhite)
             }
             Spacer(modifier = Modifier.weight(1f))
             Text(text = "LVL 027", color = RPGWhite, fontWeight = FontWeight.Bold, fontSize = 20.sp, fontFamily = MontserratFontFamily)
@@ -180,7 +173,7 @@ private fun WorkoutPlanHeader() {
                 }
             }
             Text(
-                text = "WORKOUT\nPLAN AI",
+                text = "WORKOUT PLAN AI",
                 color = RPGWhite,
                 fontFamily = MontserratFontFamily,
                 fontWeight = FontWeight.ExtraBold,
@@ -214,6 +207,6 @@ private fun ChatMessage(message: String) {
 @Composable
 private fun WorkoutPlanAIScreenPreview() {
     GetFitRPGTheme {
-        WorkoutPlanAIScreen()
+        // WorkoutPlanAIScreen() // This preview will not work with a NavController
     }
 }

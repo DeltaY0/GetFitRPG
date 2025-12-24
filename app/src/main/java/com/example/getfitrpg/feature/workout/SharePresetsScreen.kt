@@ -15,12 +15,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.material.icons.filled.Download
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -31,6 +32,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.getfitrpg.core.designsystem.GetFitRPGTheme
 import com.example.getfitrpg.core.designsystem.MontserratFontFamily
 import com.example.getfitrpg.core.designsystem.RPGBackgroundBlue
@@ -38,7 +40,7 @@ import com.example.getfitrpg.core.designsystem.RPGGreen
 import com.example.getfitrpg.core.designsystem.RPGWhite
 
 @Composable
-fun SharePresetsScreen() {
+fun SharePresetsScreen(navController: NavController) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -47,7 +49,7 @@ fun SharePresetsScreen() {
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         // Header
-        SharePresetsHeader()
+        SharePresetsHeader(onBackClick = { navController.popBackStack() })
 
         Spacer(modifier = Modifier.height(8.dp))
 
@@ -130,23 +132,14 @@ fun SharePresetsScreen() {
 }
 
 @Composable
-private fun SharePresetsHeader() {
+private fun SharePresetsHeader(onBackClick: () -> Unit) {
     Column(modifier = Modifier.fillMaxWidth()) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            Box(
-                modifier = Modifier
-                    .size(32.dp)
-                    .background(Color(0xFFFBBF24), RoundedCornerShape(4.dp)),
-                contentAlignment = Alignment.Center
-            ) {
-                Text(text = "R", color = Color(0xFF0B1220), fontWeight = FontWeight.Bold, fontSize = 20.sp)
-            }
-            Column {
-                Text(text = "PLAYER NAME", color = Color(0xFF6B7280), fontSize = 12.sp, fontFamily = MontserratFontFamily)
-                Text(text = "CLASS NAME", color = RPGWhite, fontWeight = FontWeight.Bold, fontSize = 16.sp, fontFamily = MontserratFontFamily)
+            IconButton(onClick = onBackClick) {
+                Icon(Icons.Default.ArrowBackIosNew, contentDescription = "Back", tint = RPGWhite)
             }
             Spacer(modifier = Modifier.weight(1f))
             Text(text = "LVL 027", color = RPGWhite, fontWeight = FontWeight.Bold, fontSize = 20.sp, fontFamily = MontserratFontFamily)
@@ -182,7 +175,7 @@ private fun SharePresetsHeader() {
                 }
             }
             Text(
-                text = "SHARE\nPRESETS",
+                text = "SHARE PRESETS",
                 color = RPGWhite,
                 fontFamily = MontserratFontFamily,
                 fontWeight = FontWeight.ExtraBold,
@@ -197,6 +190,6 @@ private fun SharePresetsHeader() {
 @Composable
 private fun SharePresetsScreenPreview() {
     GetFitRPGTheme {
-        SharePresetsScreen()
+        // SharePresetsScreen() // This preview will not work with a NavController
     }
 }

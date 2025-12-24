@@ -17,12 +17,17 @@ import com.example.getfitrpg.feature.auth.signup.HeightScreen
 import com.example.getfitrpg.feature.auth.signup.OnboardingScreen
 import com.example.getfitrpg.feature.auth.signup.SignupScreen
 import com.example.getfitrpg.feature.auth.signup.WeightScreen
-import com.example.getfitrpg.feature.splash.SplashScreen
-import com.example.getfitrpg.feature.timer.TimerScreen
-import com.example.getfitrpg.feature.workout.WorkoutScreen
 import com.example.getfitrpg.feature.diet_ai.DietAIScreen
 import com.example.getfitrpg.feature.food.FoodDetectionScreen
+import com.example.getfitrpg.feature.home.HomeScreen
 import com.example.getfitrpg.feature.profile.StatScreen
+import com.example.getfitrpg.feature.splash.SplashScreen
+import com.example.getfitrpg.feature.timer.TimerScreen
+import com.example.getfitrpg.feature.workout.EditPreset
+import com.example.getfitrpg.feature.workout.RunningWorkoutScreen
+import com.example.getfitrpg.feature.workout.SharePresetsScreen
+import com.example.getfitrpg.feature.workout.WorkoutPlanAIScreen
+import com.example.getfitrpg.feature.workout.WorkoutScreen
 
 @Composable
 fun AppNavGraph(
@@ -178,11 +183,11 @@ fun AppNavGraph(
 
         // 3. Main App Flow
         composable(Screen.Home.route) {
-            StatScreen()
+            HomeScreen(navController = navController)
         }
 
         composable(Screen.Workout.route) {
-            WorkoutScreen()
+            WorkoutScreen(navController = navController)
         }
 
         composable(Screen.Stats.route) {
@@ -199,6 +204,22 @@ fun AppNavGraph(
 
         composable(Screen.Food.route) {
             FoodDetectionScreen()
+        }
+
+        composable(Screen.EditPreset.route) {
+            EditPreset(navController = navController)
+        }
+
+        composable(Screen.Running.route) {
+            RunningWorkoutScreen(navController = navController)
+        }
+
+        composable(Screen.WorkoutPlanAI.route) {
+            WorkoutPlanAIScreen(navController = navController)
+        }
+
+        composable(Screen.SharePresets.route) {
+            SharePresetsScreen(navController = navController)
         }
     }
 }
@@ -221,4 +242,8 @@ sealed class Screen(val route: String) {
     object DietAI : Screen("diet_ai")
     object Timer : Screen("timer")
     object Food : Screen("food")
+    object EditPreset : Screen("edit_preset")
+    object Running : Screen("running")
+    object WorkoutPlanAI : Screen("workout_plan_ai")
+    object SharePresets : Screen("share_presets")
 }
