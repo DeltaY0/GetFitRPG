@@ -5,12 +5,14 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -19,6 +21,8 @@ import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -29,6 +33,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -47,7 +52,6 @@ import com.example.getfitrpg.core.designsystem.RPGGrey
 import com.example.getfitrpg.core.designsystem.RPGPurple
 import com.example.getfitrpg.core.designsystem.RPGWhite
 import com.example.getfitrpg.core.designsystem.components.RPGButton
-import com.example.getfitrpg.core.designsystem.components.RPGTextField
 import com.example.getfitrpg.feature.auth.AuthManager
 
 @Composable
@@ -87,18 +91,20 @@ fun SignupScreen(authManager: AuthManager, onLoginClicked: () -> Unit, onRegiste
         Image(
             painter = painterResource(id = R.drawable.logo_with_text_dark),
             contentDescription = "Get Fit RPG Logo",
-            modifier = Modifier.padding(vertical = 40.dp).height(120.dp)
+            modifier = Modifier
+                .padding(top = 32.dp, bottom = 24.dp)
+                .height(160.dp)
         )
 
         Text(
             text = "SIGNUP",
-            style = MaterialTheme.typography.titleMedium.copy(fontSize = 28.sp),
+            style = MaterialTheme.typography.titleMedium.copy(fontSize = 32.sp, fontWeight = FontWeight.ExtraBold),
             color = RPGWhite
         )
 
-        Spacer(modifier = Modifier.height(30.dp))
+        Spacer(modifier = Modifier.height(28.dp))
 
-        RPGTextField(
+        SignupTextField(
             value = username,
             onValueChange = { username = it },
             placeholder = "Username"
@@ -106,7 +112,7 @@ fun SignupScreen(authManager: AuthManager, onLoginClicked: () -> Unit, onRegiste
 
         Spacer(modifier = Modifier.height(20.dp))
 
-        RPGTextField(
+        SignupTextField(
             value = email,
             onValueChange = { email = it },
             placeholder = "Email",
@@ -126,7 +132,7 @@ fun SignupScreen(authManager: AuthManager, onLoginClicked: () -> Unit, onRegiste
 
         Spacer(modifier = Modifier.height(20.dp))
 
-        RPGTextField(
+        SignupTextField(
             value = password,
             onValueChange = { password = it },
             placeholder = "Password",
@@ -153,7 +159,7 @@ fun SignupScreen(authManager: AuthManager, onLoginClicked: () -> Unit, onRegiste
 
         Spacer(modifier = Modifier.height(20.dp))
 
-        RPGTextField(
+        SignupTextField(
             value = confirmPassword,
             onValueChange = { confirmPassword = it },
             placeholder = "Confirm Password",
@@ -203,32 +209,104 @@ fun SignupScreen(authManager: AuthManager, onLoginClicked: () -> Unit, onRegiste
                         registrationMessage = it.message
                     })
                 }
-            }
+            },
+            containerColor = Color(0xFF8EF122),
+            contentColor = Color(0xFF0B1220)
         )
 
         Spacer(modifier = Modifier.height(20.dp))
 
-        Text(
-            text = "OR",
-            color = RPGWhite,
-            textAlign = TextAlign.Center,
-            style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold, fontSize = 16.sp)
-        )
+        SignupDivider()
 
         Spacer(modifier = Modifier.height(20.dp))
 
         RPGButton(
             text = "Signup with Google",
             onClick = { /* Handle Google signup */ },
-            containerColor = RPGWhite,
-            contentColor = RPGBackgroundDark
+            containerColor = Color(0xFFF5F7FB),
+            contentColor = Color(0xFF0B1220)
         )
 
         Spacer(modifier = Modifier.height(16.dp))
 
         TextButton(onClick = onLoginClicked) {
-            Text("Already have an Account? Login", color = RPGGreen, style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold))
+            Text(
+                "Already have an Account? Login",
+                color = RPGWhite,
+                style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold)
+            )
         }
+    }
+}
+
+@Composable
+private fun SignupTextField(
+    value: String,
+    onValueChange: (String) -> Unit,
+    placeholder: String,
+    isError: Boolean = false,
+    visualTransformation: VisualTransformation = VisualTransformation.None,
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+    trailingIcon: (@Composable () -> Unit)? = null
+) {
+    OutlinedTextField(
+        value = value,
+        onValueChange = onValueChange,
+        placeholder = {
+            Text(
+                text = placeholder,
+                color = Color(0xFF6B7280),
+                style = MaterialTheme.typography.bodyLarge
+            )
+        },
+        textStyle = MaterialTheme.typography.bodyLarge.copy(color = Color(0xFF0B1220)),
+        modifier = Modifier.fillMaxWidth(),
+        isError = isError,
+        visualTransformation = visualTransformation,
+        keyboardOptions = keyboardOptions,
+        trailingIcon = trailingIcon,
+        singleLine = true,
+        shape = RoundedCornerShape(12.dp),
+        colors = OutlinedTextFieldDefaults.colors(
+            focusedContainerColor = Color(0xFFE7EFF7),
+            unfocusedContainerColor = Color(0xFFE7EFF7),
+            disabledContainerColor = Color(0xFFE7EFF7),
+            focusedTextColor = Color(0xFF0B1220),
+            unfocusedTextColor = Color(0xFF0B1220),
+            cursorColor = RPGGreen,
+            focusedBorderColor = Color.Transparent,
+            unfocusedBorderColor = Color.Transparent,
+            errorBorderColor = RPGErrorRed,
+            errorContainerColor = Color(0xFFE7EFF7),
+            errorTextColor = RPGErrorRed
+        )
+    )
+}
+
+@Composable
+private fun SignupDivider() {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(12.dp)
+    ) {
+        Spacer(
+            modifier = Modifier
+                .weight(1f)
+                .height(1.dp)
+                .background(Color(0xFF233045))
+        )
+        Text(
+            text = "OR",
+            color = RPGWhite,
+            style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold, fontSize = 16.sp)
+        )
+        Spacer(
+            modifier = Modifier
+                .weight(1f)
+                .height(1.dp)
+                .background(Color(0xFF233045))
+        )
     }
 }
 

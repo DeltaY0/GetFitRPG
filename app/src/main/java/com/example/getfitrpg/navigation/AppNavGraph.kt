@@ -18,6 +18,11 @@ import com.example.getfitrpg.feature.auth.signup.OnboardingScreen
 import com.example.getfitrpg.feature.auth.signup.SignupScreen
 import com.example.getfitrpg.feature.auth.signup.WeightScreen
 import com.example.getfitrpg.feature.splash.SplashScreen
+import com.example.getfitrpg.feature.timer.TimerScreen
+import com.example.getfitrpg.feature.workout.WorkoutScreen
+import com.example.getfitrpg.feature.diet_ai.DietAIScreen
+import com.example.getfitrpg.feature.food.FoodDetectionScreen
+import com.example.getfitrpg.feature.profile.StatScreen
 
 @Composable
 fun AppNavGraph(
@@ -173,28 +178,27 @@ fun AppNavGraph(
 
         // 3. Main App Flow
         composable(Screen.Home.route) {
-            // HomeScreen()
-            PlaceholderScreen("DASHBOARD")
+            StatScreen()
         }
 
         composable(Screen.Workout.route) {
-            // WorkoutScreen()
-            PlaceholderScreen("WORKOUT HUB")
+            WorkoutScreen()
         }
 
         composable(Screen.Stats.route) {
-            // StatScreen()
-            PlaceholderScreen("RPG STATS")
+            StatScreen()
         }
 
         composable(Screen.DietAI.route) {
-            // DietAIScreen()
-            PlaceholderScreen("DIET AI")
+            DietAIScreen()
         }
 
         composable(Screen.Timer.route) {
-            // TimerScreen()
-            PlaceholderScreen("TIMER")
+            TimerScreen()
+        }
+
+        composable(Screen.Food.route) {
+            FoodDetectionScreen()
         }
     }
 }
@@ -216,4 +220,5 @@ sealed class Screen(val route: String) {
     object Stats : Screen("profile")
     object DietAI : Screen("diet_ai")
     object Timer : Screen("timer")
+    object Food : Screen("food")
 }
