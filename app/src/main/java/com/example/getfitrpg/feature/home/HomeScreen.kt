@@ -22,13 +22,8 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -38,12 +33,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.getfitrpg.R
 import com.example.getfitrpg.core.designsystem.GetFitRPGTheme
 import com.example.getfitrpg.core.designsystem.MontserratFontFamily
 import com.example.getfitrpg.core.designsystem.RPGGreen
-import com.example.getfitrpg.navigation.components.AnimatedBottomBar
-import com.example.getfitrpg.navigation.components.BottomNavItem
+import com.example.getfitrpg.navigation.Screen
 
 val ScreenBackground = Color(0xFF101828)
 val CardBackground = Color(0xFF1E293B)
@@ -62,55 +57,49 @@ val AiRed = Color(0xFFF87171)
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen() {
-    var selectedNavItem by remember { mutableStateOf(BottomNavItem.Home) }
-
-    Scaffold(
-        containerColor = ScreenBackground,
-        bottomBar = { AnimatedBottomBar(selectedItem = selectedNavItem, onItemSelected = { selectedNavItem = it }) }
-    ) { paddingValues ->
-        Column(
+fun HomeScreen(navController: NavController) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(ScreenBackground)
+            .padding(horizontal = 16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.SpaceAround
+    ) {
+        PlayerHeader()
+        StartWorkoutCard(onStartWorkoutClicked = { navController.navigate(Screen.Workout.route) })
+        Row(
             modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues)
-                .padding(horizontal = 16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.SpaceAround
+                .fillMaxWidth()
+                .height(IntrinsicSize.Min),
+            horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            PlayerHeader()
-            StartWorkoutCard(onStartWorkoutClicked = {})
-            Row(
+            CharacterStatsCard(modifier = Modifier
+                .weight(1f)
+                .fillMaxHeight())
+            Column(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .height(IntrinsicSize.Min),
-                horizontalArrangement = Arrangement.spacedBy(16.dp)
+                    .weight(1f)
+                    .fillMaxHeight(),
+                verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                CharacterStatsCard(modifier = Modifier
-                    .weight(1f)
-                    .fillMaxHeight())
-                Column(
-                    modifier = Modifier
-                        .weight(1f)
-                        .fillMaxHeight(),
-                    verticalArrangement = Arrangement.spacedBy(16.dp)
-                ) {
-                    WorkoutsInARowCard(modifier = Modifier.fillMaxWidth())
-                    PomodoroTimerCard(modifier = Modifier.fillMaxWidth(), onClick = {})
-                }
+                WorkoutsInARowCard(modifier = Modifier.fillMaxWidth())
+                PomodoroTimerCard(modifier = Modifier.fillMaxWidth(), onClick = { navController.navigate(Screen.Timer.route) })
             }
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(IntrinsicSize.Min),
-                horizontalArrangement = Arrangement.spacedBy(16.dp)
-            ) {
-                RecentWorkoutCard(modifier = Modifier
-                    .weight(1f)
-                    .fillMaxHeight())
-                WorkoutAICard(modifier = Modifier
-                    .weight(1f)
-                    .fillMaxHeight())
-            }
+        }
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(IntrinsicSize.Min),
+            horizontalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            RecentWorkoutCard(modifier = Modifier
+                .weight(1f)
+                .fillMaxHeight())
+            WorkoutAICard(modifier = Modifier
+                .weight(1f)
+                .fillMaxHeight(),
+                onClick = { navController.navigate(Screen.DietAI.route) })
         }
     }
 }
@@ -296,12 +285,14 @@ fun RecentWorkoutCard(modifier: Modifier = Modifier) {
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun WorkoutAICard(modifier: Modifier = Modifier) {
+fun WorkoutAICard(modifier: Modifier = Modifier, onClick: () -> Unit) {
     Card(
         modifier = modifier,
         shape = RoundedCornerShape(16.dp),
-        colors = CardDefaults.cardColors(containerColor = CardBackground)
+        colors = CardDefaults.cardColors(containerColor = CardBackground),
+        onClick = onClick
     ) {
         Column(
             modifier = Modifier
@@ -327,6 +318,6 @@ fun WorkoutAICard(modifier: Modifier = Modifier) {
 @Composable
 fun HomeScreenPreview() {
     GetFitRPGTheme {
-        HomeScreen()
+        // HomeScreen() // This preview will not work with a NavController
     }
 }

@@ -25,13 +25,8 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -39,11 +34,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.getfitrpg.core.designsystem.GetFitRPGTheme
 import com.example.getfitrpg.core.designsystem.MontserratFontFamily
-import com.example.getfitrpg.navigation.components.AnimatedBottomBar
-import com.example.getfitrpg.navigation.components.BottomNavItem
-import com.example.getfitrpg.core.designsystem.*
 
 val RepBlue = Color(0xFF67E8F9)
 val SetYellow = Color(0xFFFACC15)
@@ -51,43 +44,35 @@ val AddWorkoutBlue = Color(0xFF0EA5E9)
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun EditPresetScreen() {
-    var selectedNavItem by remember { mutableStateOf(BottomNavItem.Workout) }
+fun EditPreset(navController: NavController) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(ScreenBackground)
+            .padding(horizontal = 16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        Spacer(modifier = Modifier.height(16.dp))
+        PlayerHeader()
+        Spacer(modifier = Modifier.height(24.dp))
+        PresetTitleBar(onBackClick = { navController.popBackStack() })
+        Spacer(modifier = Modifier.height(24.dp))
 
-    Scaffold(
-        containerColor = ScreenBackground,
-        bottomBar = { AnimatedBottomBar(selectedItem = selectedNavItem, onItemSelected = { selectedNavItem = it }) }
-    ) { paddingValues ->
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues)
-                .padding(horizontal = 16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
+        LazyColumn(
+            modifier = Modifier.weight(1f),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            Spacer(modifier = Modifier.height(16.dp))
-            PlayerHeader()
-            Spacer(modifier = Modifier.height(24.dp))
-            PresetTitleBar()
-            Spacer(modifier = Modifier.height(24.dp))
-
-            LazyColumn(
-                modifier = Modifier.weight(1f),
-                verticalArrangement = Arrangement.spacedBy(16.dp)
-            ) {
-                item {
-                    WorkoutSection()
-                }
+            item {
+                WorkoutSection()
             }
-
-            BottomActionButtons()
         }
+
+        BottomActionButtons(navController = navController)
     }
 }
 
-
 @Composable
-fun PresetTitleBar() {
+fun PresetTitleBar(onBackClick: () -> Unit) {
     Card(
         shape = RoundedCornerShape(12.dp),
         colors = CardDefaults.cardColors(containerColor = Color.White)
@@ -99,7 +84,7 @@ fun PresetTitleBar() {
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            IconButton(onClick = { /* Handle back */ }) {
+            IconButton(onClick = onBackClick) {
                 Icon(Icons.Default.ArrowBackIosNew, contentDescription = "Back", tint = Color.Black)
             }
             Text(
@@ -175,7 +160,7 @@ fun ExerciseItem(reps: String, name: String, sets: String) {
 
 
 @Composable
-fun BottomActionButtons() {
+fun BottomActionButtons(navController: NavController) {
     Column(
         modifier = Modifier.padding(vertical = 16.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp)
@@ -205,7 +190,7 @@ fun BottomActionButtons() {
             }
         }
         Button(
-            onClick = { /*TODO*/ },
+            onClick = { navController.navigate("home") },
             modifier = Modifier
                 .fillMaxWidth()
                 .height(50.dp),
@@ -221,6 +206,7 @@ fun BottomActionButtons() {
 @Composable
 fun EditPresetScreenPreview() {
     GetFitRPGTheme {
-        EditPresetScreen()
+        // This preview won't work with a NavController. 
+        // You might need a fake NavController for it to work.
     }
 }

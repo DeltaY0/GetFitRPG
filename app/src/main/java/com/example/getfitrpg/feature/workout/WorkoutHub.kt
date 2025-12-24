@@ -42,9 +42,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.getfitrpg.R
 import com.example.getfitrpg.core.designsystem.GetFitRPGTheme
 import com.example.getfitrpg.core.designsystem.MontserratFontFamily
+import com.example.getfitrpg.navigation.Screen
 
 val ScreenBackground = Color(0xFF101828)
 val CardBackground = Color(0xFF1E293B)
@@ -55,7 +57,7 @@ val LevelProgressGreen = Color(0xFF4ADE80)
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun WorkoutScreen() {
+fun WorkoutScreen(navController: NavController) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -66,7 +68,7 @@ fun WorkoutScreen() {
         Spacer(modifier = Modifier.height(16.dp))
         PlayerHeader()
         Spacer(modifier = Modifier.height(24.dp))
-        PresetsHeader()
+        PresetsHeader(navController = navController)
         Spacer(modifier = Modifier.height(16.dp))
         SearchPresets()
         Spacer(modifier = Modifier.height(16.dp))
@@ -74,12 +76,15 @@ fun WorkoutScreen() {
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             items(6) {
-                PresetItem()
+                PresetItem(
+                    onMoreOptionsClick = { navController.navigate(Screen.EditPreset.route) },
+                    onStartPresetClick = { navController.navigate(Screen.Running.route) }
+                )
             }
         }
         Spacer(modifier = Modifier.weight(1f))
         Button(
-            onClick = { /*TODO*/ },
+            onClick = { navController.navigate(Screen.EditPreset.route) },
             modifier = Modifier
                 .fillMaxWidth()
                 .height(50.dp),
@@ -132,7 +137,7 @@ fun PlayerHeader() {
 }
 
 @Composable
-fun PresetsHeader() {
+fun PresetsHeader(navController: NavController) {
     Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth()) {
         Row(
             modifier = Modifier
@@ -140,9 +145,12 @@ fun PresetsHeader() {
                 .padding(horizontal = 8.dp, vertical = 4.dp),
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            Icon(painter = painterResource(id = R.drawable.icon_crossmark), contentDescription = null, tint = TextWhite, modifier = Modifier.size(24.dp))
-            Icon(painter = painterResource(id = R.drawable.icon_ai), contentDescription = null, tint = TextWhite, modifier = Modifier.size(24.dp))
-            Icon(painter = painterResource(id = R.drawable.icon_discover), contentDescription = null, tint = TextWhite, modifier = Modifier.size(24.dp))
+            IconButton(onClick = { navController.navigate(Screen.Workout.route) }) {
+                Icon(painter = painterResource(id = R.drawable.icon_crossmark), contentDescription = null, tint = TextWhite, modifier = Modifier.size(24.dp))
+            }
+            IconButton(onClick = { navController.navigate(Screen.SharePresets.route) }) {
+                Icon(painter = painterResource(id = R.drawable.icon_discover), contentDescription = null, tint = TextWhite, modifier = Modifier.size(24.dp))
+            }
         }
         Spacer(modifier = Modifier.weight(1f))
         Text(text = "MY PRESETS", color = TextWhite, fontWeight = FontWeight.Bold, fontSize = 24.sp, fontFamily = MontserratFontFamily, textAlign = TextAlign.End)
@@ -157,7 +165,7 @@ fun SearchPresets() {
         onValueChange = { searchText = it },
         placeholder = { Text("Search Presets", color = TextGrey) },
         leadingIcon = { Icon(Icons.Default.Search, contentDescription = "Search", tint = TextGrey) },
-        trailingIcon = { Icon(painter = painterResource(id = R.drawable.icon_edit), contentDescription = "Filter", tint = TextGrey) }, //Needs to insert the true icon
+        trailingIcon = { Icon(Icons.Default.Search, contentDescription = "Search", tint = TextGrey) }, //Needs to insert the true icon
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(12.dp),
         colors = OutlinedTextFieldDefaults.colors(
@@ -172,7 +180,7 @@ fun SearchPresets() {
 }
 
 @Composable
-fun PresetItem() {
+fun PresetItem(onMoreOptionsClick: () -> Unit, onStartPresetClick: () -> Unit) {
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(12.dp),
@@ -183,10 +191,10 @@ fun PresetItem() {
                 Text("Preset #1 - Legs", color = TextWhite, fontWeight = FontWeight.Bold, fontSize = 16.sp, fontFamily = MontserratFontFamily)
                 Text("tags tags tags tags tags", color = TextGrey, fontSize = 12.sp, fontFamily = MontserratFontFamily)
             }
-            IconButton(onClick = { /*TODO*/ }) {
+            IconButton(onClick = onMoreOptionsClick) {
                 Icon(Icons.Default.MoreHoriz, contentDescription = "More Options", tint = TextGrey)
             }
-            IconButton(onClick = { /*TODO*/ }) {
+            IconButton(onClick = onStartPresetClick) {
                 Icon(painter = painterResource(id = R.drawable.icon_arrow), contentDescription = "Start Preset", tint = TextWhite)
             }
         }
@@ -197,6 +205,5 @@ fun PresetItem() {
 @Composable
 fun WorkoutScreenPreview() {
     GetFitRPGTheme {
-        WorkoutScreen()
     }
 }
