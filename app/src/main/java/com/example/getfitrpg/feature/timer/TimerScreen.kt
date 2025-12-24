@@ -1,7 +1,11 @@
 package com.example.getfitrpg.feature.timer
 
 import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -45,8 +49,10 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
@@ -55,9 +61,7 @@ import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import com.example.getfitrpg.core.designsystem.GetFitRPGTheme
-import com.example.getfitrpg.core.designsystem.ModernizFontFamily
 import com.example.getfitrpg.core.designsystem.MontserratFontFamily
-import com.example.getfitrpg.core.designsystem.OnderFontFamily
 import com.example.getfitrpg.core.designsystem.RPGBackgroundBlue
 import com.example.getfitrpg.core.designsystem.RPGContainerBlue
 import com.example.getfitrpg.core.designsystem.RPGCoolPurple
@@ -69,12 +73,11 @@ import com.example.getfitrpg.core.designsystem.RPGWhite
 import com.example.getfitrpg.core.designsystem.RPGBlue
 import com.example.getfitrpg.core.designsystem.RPGCoolBlue
 import com.example.getfitrpg.core.designsystem.RPGCoolGreen
-import com.example.getfitrpg.core.designsystem.RPGCoolRed
 import com.example.getfitrpg.core.designsystem.RPGGrey
 import com.example.getfitrpg.core.designsystem.RPGYellow
+import com.example.getfitrpg.core.designsystem.components.PlayerStatsCard
 import com.example.getfitrpg.core.designsystem.components.RPGButton
 import com.example.getfitrpg.core.designsystem.components.RPGTextField
-import com.example.getfitrpg.core.designsystem.components.PlayerStatsCard
 
 private enum class TimerPhase { Work, ShortBreak, LongBreak }
 private enum class TimerMode { Edit, Running }
@@ -303,16 +306,16 @@ private fun TimerSettingCard(
                 Text(
                     text = value,
                     color = color,
-                    fontFamily = ModernizFontFamily,
+                    fontFamily = MontserratFontFamily,
                     fontWeight = FontWeight.Black,
                     fontSize = 36.sp
                 )
                 Text(
                     text = title,
                     color = RPGGrey,
-                    fontFamily = OnderFontFamily,
+                    fontFamily = MontserratFontFamily,
                     fontWeight = FontWeight.Bold,
-                    fontSize = 10.sp
+                    fontSize = 14.sp
                 )
             }
             Icon(
@@ -345,9 +348,9 @@ private fun CounterCard(
             Text(
                 text = title,
                 color = RPGGrey,
-                fontFamily = ModernizFontFamily,
+                fontFamily = MontserratFontFamily,
                 fontWeight = FontWeight.Bold,
-                fontSize = 18.sp
+                fontSize = 14.sp
             )
             Spacer(modifier = Modifier.height(8.dp))
             Row(
@@ -467,7 +470,7 @@ private fun RunningTimerContent(
             title = "SET",
             current = setsDone,
             total = totalSets,
-            accent = RPGCoolRed,
+            accent = RPGCoolPurple,
             modifier = Modifier.weight(1f)
         )
     }
@@ -494,6 +497,7 @@ private fun WorkTimerCard(
     isRunning: Boolean
 ) {
     val workColor = RPGCoolGreen
+    val restColor = RPGSurfaceDark
     val phaseColor = when (phase) {
         TimerPhase.Work -> workColor
         TimerPhase.ShortBreak -> RPGYellow
@@ -543,16 +547,16 @@ private fun WorkTimerCard(
                         Text(
                             text = phase.name.uppercase().replace("_", " "),
                             color = RPGWhite, // Always white for contrast
-                            fontFamily = ModernizFontFamily,
+                            fontFamily = MontserratFontFamily,
                             fontWeight = FontWeight.ExtraBold,
-                            fontSize = 14.sp
+                            fontSize = 26.sp
                         )
                         Text(
                             text = formatTime(remainingTime),
                             color = RPGWhite, // Always white for contrast
-                            fontFamily = ModernizFontFamily,
+                            fontFamily = MontserratFontFamily,
                             fontWeight = FontWeight.Black,
-                            fontSize = 48.sp
+                            fontSize = 64.sp
                         )
                     }
                 }
@@ -567,9 +571,9 @@ private fun WorkTimerCard(
             Text(
                 text = formatTime(restDuration),
                 color = Color(0xFFB8BDC9),
-                fontFamily = ModernizFontFamily,
+                fontFamily = MontserratFontFamily,
                 fontWeight = FontWeight.Bold,
-                fontSize = 15.sp,
+                fontSize = 20.sp,
                 modifier = Modifier
                     .align(Alignment.TopEnd)
                     .padding(20.dp)
@@ -611,16 +615,16 @@ private fun TotalElapsedCard(totalElapsedSeconds: Int, totalExpectedSeconds: Int
                 Text(
                     text = formatTime(totalElapsedSeconds),
                     color = RPGWhite,
-                    fontFamily = ModernizFontFamily,
+                    fontFamily = MontserratFontFamily,
                     fontWeight = FontWeight.Black,
                     fontSize = 36.sp
                 )
                 Text(
                     text = "TOTAL ELAPSED",
                     color = RPGYellow,
-                    fontFamily = OnderFontFamily,
+                    fontFamily = MontserratFontFamily,
                     fontWeight = FontWeight.ExtraBold,
-                    fontSize = 12.sp
+                    fontSize = 18.sp
                 )
             }
         }
@@ -642,8 +646,8 @@ private fun TimerStatCard(title: String, current: Int, total: Int, accent: Color
         ) {
             Text(
                 text = title,
-                color = RPGCoolBlue,
-                fontFamily = OnderFontFamily,
+                color = Color(0xFFA4AAB7),
+                fontFamily = MontserratFontFamily,
                 fontWeight = FontWeight.ExtraBold,
                 fontSize = 18.sp
             )
@@ -652,7 +656,7 @@ private fun TimerStatCard(title: String, current: Int, total: Int, accent: Color
                 Text(
                     text = current.toString(),
                     color = accent,
-                    fontFamily = ModernizFontFamily,
+                    fontFamily = MontserratFontFamily,
                     fontWeight = FontWeight.Black,
                     fontSize = 40.sp
                 )
