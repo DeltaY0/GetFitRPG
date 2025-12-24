@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "471121397670",
+    "firebase_url": "https://getfitrpg-default-rtdb.firebaseio.com",
+    "project_id": "getfitrpg",
+    "storage_bucket": "getfitrpg.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:471121397670:android:94a7b84e0c31c149eb7167",
+        "android_client_info": {
+          "package_name": "com.example.getfitrpg"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "471121397670-lodlvteikfjfs3n8ud1rrog615c6pfnq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD9ZfQoCK0ijKsaud-PHSBgF9WmkGsTyq4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "471121397670-lodlvteikfjfs3n8ud1rrog615c6pfnq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
