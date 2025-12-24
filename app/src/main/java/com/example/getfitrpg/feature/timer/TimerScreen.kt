@@ -316,7 +316,7 @@ private fun TotalElapsedCard(totalElapsedSeconds: Int) {
 @Composable
 private fun TimerStatCard(title: String, current: Int, total: Int, accent: Color) {
 	Card(
-		modifier = Modifier.weight(1f),
+		modifier = Modifier,
 		colors = CardDefaults.cardColors(containerColor = Color(0xFF0C1626)),
 		shape = RoundedCornerShape(18.dp)
 	) {

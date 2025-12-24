@@ -16,13 +16,11 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -35,9 +33,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.getfitrpg.core.designsystem.GetFitRPGTheme
 import com.example.getfitrpg.core.designsystem.MontserratFontFamily
-import com.example.getfitrpg.core.designsystem.RPGBackgroundBlue
-import com.example.getfitrpg.core.designsystem.RPGGreen
-import com.example.getfitrpg.core.designsystem.RPGWhite
+
+// --- FIX: DEFINE COLORS LOCALLY ---
+val RPGGreen = Color(0xFFA3E635)
+val RPGWhite = Color(0xFFF1F5F9)
+val RPGBackgroundBlue = Color(0xFF0F172A)
+val IntYellow = Color(0xFFFACC15) // Moved here for visibility
+// ----------------------------------
 
 @Composable
 fun WorkoutDetailScreen(onBackClick: () -> Unit = {}, onStartClick: () -> Unit = {}) {
@@ -49,7 +51,7 @@ fun WorkoutDetailScreen(onBackClick: () -> Unit = {}, onStartClick: () -> Unit =
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         // Header with back button
-        WorkoutDetailHeader(onBackClick = onBackClick)
+        WorkoutDetailHeader()
 
         // Preset Title Bar
         Box(
@@ -70,10 +72,12 @@ fun WorkoutDetailScreen(onBackClick: () -> Unit = {}, onStartClick: () -> Unit =
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Icon(
-                        Icons.Default.ArrowBack,
+                        Icons.AutoMirrored.Filled.ArrowBack,
                         contentDescription = "Back",
                         tint = Color(0xFF0B1220),
-                        modifier = Modifier.size(20.dp)
+                        modifier = Modifier
+                            .size(20.dp)
+                            .clickable { onBackClick() }
                     )
                     Text(
                         text = "PRESET #6",
@@ -108,7 +112,7 @@ fun WorkoutDetailScreen(onBackClick: () -> Unit = {}, onStartClick: () -> Unit =
             }
 
             items(3) { index ->
-                ExerciseItem(
+                WorkoutDetailExerciseItem(
                     duration = when (index) {
                         0 -> "30r"
                         1 -> "15r"
@@ -202,7 +206,7 @@ private fun WorkoutDetailHeader() {
 }
 
 @Composable
-private fun ExerciseItem(
+private fun WorkoutDetailExerciseItem(
     duration: String,
     name: String,
     multiplier: String
@@ -273,8 +277,6 @@ private fun Button(
         )
     }
 }
-
-private val IntYellow = Color(0xFFFACC15)
 
 @Preview(showBackground = true)
 @Composable

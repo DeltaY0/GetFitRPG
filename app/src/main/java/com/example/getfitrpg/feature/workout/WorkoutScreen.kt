@@ -228,7 +228,7 @@ private fun PresetCard(
 
 @Preview(showBackground = true)
 @Composable
-private fun WorkoutScreenPreview() {
+private fun WorkoutScreenPreviews() {
     GetFitRPGTheme {
         WorkoutScreen()
     }
