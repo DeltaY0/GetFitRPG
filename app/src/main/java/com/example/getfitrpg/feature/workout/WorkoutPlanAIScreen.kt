@@ -1,4 +1,4 @@
-package com.example.getfitrpg.feature.diet_ai
+package com.example.getfitrpg.feature.workout
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -15,8 +15,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Chat
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -42,7 +40,7 @@ import com.example.getfitrpg.core.designsystem.RPGGreen
 import com.example.getfitrpg.core.designsystem.RPGWhite
 
 @Composable
-fun DietAIScreen() {
+fun WorkoutPlanAIScreen() {
     var messageInput by remember { mutableStateOf("") }
     val messages = remember { mutableStateOf<List<String>>(emptyList()) }
 
@@ -54,7 +52,7 @@ fun DietAIScreen() {
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         // Header
-        DietHeader()
+        WorkoutPlanHeader()
 
         Spacer(modifier = Modifier.height(8.dp))
 
@@ -130,7 +128,7 @@ fun DietAIScreen() {
 }
 
 @Composable
-private fun DietHeader() {
+private fun WorkoutPlanHeader() {
     Column(modifier = Modifier.fillMaxWidth()) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -171,7 +169,7 @@ private fun DietHeader() {
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            repeat(2) {
+            repeat(3) {
                 Box(
                     modifier = Modifier
                         .size(36.dp)
@@ -182,12 +180,12 @@ private fun DietHeader() {
                 }
             }
             Text(
-                text = "DIET AI\nCHAT",
+                text = "WORKOUT\nPLAN AI",
                 color = RPGWhite,
                 fontFamily = MontserratFontFamily,
                 fontWeight = FontWeight.ExtraBold,
-                fontSize = 16.sp,
-                lineHeight = 18.sp
+                fontSize = 14.sp,
+                lineHeight = 16.sp
             )
         }
     }
@@ -214,8 +212,8 @@ private fun ChatMessage(message: String) {
 
 @Preview(showBackground = true)
 @Composable
-private fun DietAIScreenPreview() {
+private fun WorkoutPlanAIScreenPreview() {
     GetFitRPGTheme {
-        DietAIScreen()
+        WorkoutPlanAIScreen()
     }
 }

@@ -1,6 +1,8 @@
-package com.example.getfitrpg.feature.diet_ai
+package com.example.getfitrpg.feature.workout
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,23 +13,17 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Chat
+import androidx.compose.material.icons.filled.Download
+import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -42,10 +38,7 @@ import com.example.getfitrpg.core.designsystem.RPGGreen
 import com.example.getfitrpg.core.designsystem.RPGWhite
 
 @Composable
-fun DietAIScreen() {
-    var messageInput by remember { mutableStateOf("") }
-    val messages = remember { mutableStateOf<List<String>>(emptyList()) }
-
+fun SharePresetsScreen() {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -54,83 +47,90 @@ fun DietAIScreen() {
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         // Header
-        DietHeader()
+        SharePresetsHeader()
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        // Messages Area
-        LazyColumn(
-            modifier = Modifier.weight(1f),
-            verticalArrangement = Arrangement.spacedBy(12.dp)
-        ) {
-            items(messages.value.size) { index ->
-                ChatMessage(messages.value[index])
-            }
-        }
-
-        // Chat Box Label
-        Box(
+        // Import Section
+        Card(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(48.dp)
-                .background(Color(0xFF1A2D3E), RoundedCornerShape(12.dp)),
-            contentAlignment = Alignment.Center
+                .height(200.dp)
+                .clickable(
+                    interactionSource = remember { MutableInteractionSource() },
+                    indication = null
+                ) { },
+            colors = CardDefaults.cardColors(containerColor = Color(0xFF1A2D3E)),
+            shape = RoundedCornerShape(16.dp)
         ) {
-            Text(
-                text = "CHAT BOX",
-                color = RPGWhite,
-                fontFamily = MontserratFontFamily,
-                fontWeight = FontWeight.ExtraBold,
-                fontSize = 16.sp
-            )
-        }
-
-        // Input Field
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            TextField(
-                value = messageInput,
-                onValueChange = { messageInput = it },
-                placeholder = { Text("Type a message...", color = Color(0xFF6B7280)) },
+            Column(
                 modifier = Modifier
-                    .weight(1f)
-                    .height(48.dp),
-                colors = TextFieldDefaults.colors(
-                    unfocusedContainerColor = Color(0xFF1A2D3E),
-                    focusedContainerColor = Color(0xFF1A2D3E),
-                    unfocusedIndicatorColor = Color.Transparent,
-                    focusedIndicatorColor = Color.Transparent
-                ),
-                shape = RoundedCornerShape(12.dp),
-                textStyle = MaterialTheme.typography.bodyLarge.copy(color = RPGWhite)
-            )
-            IconButton(
-                onClick = { },
-                modifier = Modifier.size(48.dp)
+                    .fillMaxSize()
+                    .padding(24.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
             ) {
-                Box(
-                    modifier = Modifier
-                        .size(40.dp)
-                        .background(RPGGreen, RoundedCornerShape(8.dp)),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Icon(
-                        Icons.Default.Chat,
-                        contentDescription = "Send",
-                        tint = Color(0xFF0B1220),
-                        modifier = Modifier.size(20.dp)
-                    )
-                }
+                Icon(
+                    Icons.Default.Download,
+                    contentDescription = "Import",
+                    tint = RPGWhite,
+                    modifier = Modifier.size(48.dp)
+                )
+                Spacer(modifier = Modifier.height(12.dp))
+                Text(
+                    text = "IMPORT",
+                    color = RPGWhite,
+                    fontFamily = MontserratFontFamily,
+                    fontWeight = FontWeight.ExtraBold,
+                    fontSize = 18.sp
+                )
             }
         }
+
+        Spacer(modifier = Modifier.height(12.dp))
+
+        // Export Section
+        Card(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(200.dp)
+                .clickable(
+                    interactionSource = remember { MutableInteractionSource() },
+                    indication = null
+                ) { },
+            colors = CardDefaults.cardColors(containerColor = Color(0xFF1A2D3E)),
+            shape = RoundedCornerShape(16.dp)
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(24.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                Icon(
+                    Icons.Default.Share,
+                    contentDescription = "Export",
+                    tint = RPGWhite,
+                    modifier = Modifier.size(48.dp)
+                )
+                Spacer(modifier = Modifier.height(12.dp))
+                Text(
+                    text = "EXPORT",
+                    color = RPGWhite,
+                    fontFamily = MontserratFontFamily,
+                    fontWeight = FontWeight.ExtraBold,
+                    fontSize = 18.sp
+                )
+            }
+        }
+
+        Spacer(modifier = Modifier.weight(1f))
     }
 }
 
 @Composable
-private fun DietHeader() {
+private fun SharePresetsHeader() {
     Column(modifier = Modifier.fillMaxWidth()) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -171,7 +171,7 @@ private fun DietHeader() {
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            repeat(2) {
+            repeat(3) {
                 Box(
                     modifier = Modifier
                         .size(36.dp)
@@ -182,40 +182,21 @@ private fun DietHeader() {
                 }
             }
             Text(
-                text = "DIET AI\nCHAT",
+                text = "SHARE\nPRESETS",
                 color = RPGWhite,
                 fontFamily = MontserratFontFamily,
                 fontWeight = FontWeight.ExtraBold,
-                fontSize = 16.sp,
-                lineHeight = 18.sp
+                fontSize = 14.sp,
+                lineHeight = 16.sp
             )
         }
     }
 }
 
-@Composable
-private fun ChatMessage(message: String) {
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(60.dp)
-            .background(Color(0xFF1A2D3E), RoundedCornerShape(12.dp))
-            .padding(12.dp),
-        contentAlignment = Alignment.CenterStart
-    ) {
-        Text(
-            text = message,
-            color = Color(0xFF6B7280),
-            fontFamily = MontserratFontFamily,
-            fontSize = 14.sp
-        )
-    }
-}
-
 @Preview(showBackground = true)
 @Composable
-private fun DietAIScreenPreview() {
+private fun SharePresetsScreenPreview() {
     GetFitRPGTheme {
-        DietAIScreen()
+        SharePresetsScreen()
     }
 }
