@@ -18,6 +18,10 @@ val JetbrainsFontFamily = FontFamily(
     Font(R.font.jetbrainsmono_extrabold, FontWeight.Black)
 )
 
+val ModernizFontFamily = FontFamily(
+    Font(R.font.moderniz, FontWeight.Normal)
+)
+
 val MontserratFontFamily = FontFamily(
     Font(R.font.montserrat_regular, FontWeight.Normal),
     Font(R.font.montserrat_bold, FontWeight.Bold),

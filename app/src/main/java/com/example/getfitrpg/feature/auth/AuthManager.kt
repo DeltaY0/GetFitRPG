@@ -3,8 +3,8 @@ package com.example.getfitrpg.feature.auth
 import android.util.Log
 import com.example.getfitrpg.data.DatabaseManager
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
+import com.google.firebase.auth.auth
+import com.google.firebase.Firebase
 
 class AuthManager {
 
